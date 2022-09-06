@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--<Nullable>enable</Nullable>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Entities\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Entities\Auth\" />
+    <None Remove="Entities\Persons\" />
+    <None Remove="Entities\Addresses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Entities\Auth\" />
+    <Folder Include="Entities\Persons\" />
+    <Folder Include="Entities\Addresses\" />
+  </ItemGroup>
+</Project>
