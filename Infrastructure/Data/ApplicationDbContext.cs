@@ -3,13 +3,14 @@ using Core.Entities.Auth;
 using Core.Entities.Persons;
 using Core.Entities.Addresses;
 using Microsoft.EntityFrameworkCore;
+using Core.Interfaces;
 
 namespace Infrastructure.Data
 {
     public class ApplicationDbContext : AuditableIdentityContext
     {
 
-        public ApplicationDbContext(DbContextOptions options) : base(options) {}
+        public ApplicationDbContext(DbContextOptions options, ICurrentUser currentUser) : base(options, currentUser) {}
 
         public DbSet<Gender> Gender { get; set; }
         public DbSet<MaritalStatus> MaritalStatus { get; set; }

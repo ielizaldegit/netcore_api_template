@@ -1,9 +1,9 @@
-﻿using System;
-using Core.Entities.Auth;
+﻿using Core.Entities.Auth;
 using Core.Interfaces;
+using Infrastructure.Auth;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.UnitOfWork
 {
@@ -15,10 +15,12 @@ namespace Infrastructure.UnitOfWork
         private IAuthRepository _auth;
         private IUserRepository _users;
         private IRoleRepository _roles;
+        private readonly JwtSettings _jwtSettings;
 
 
-        public UnitOfWork(ApplicationDbContext context) {
+        public UnitOfWork(ApplicationDbContext context, IOptions<JwtSettings> jwtSettings) {
             _context = context;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public IAuthRepository Auth {
@@ -26,7 +28,7 @@ namespace Infrastructure.UnitOfWork
         }
 
         public IUserRepository Users {
-            get { return _users = _users ?? new UserRepository(_context); }
+            get { return _users = _users ?? new UserRepository(_context, _jwtSettings); }
         }
 
         public IGenericRepository<Role> Roles
@@ -38,10 +40,12 @@ namespace Infrastructure.UnitOfWork
         public async Task<int> SaveAsync() {
             return await _context.SaveChangesAsync();
         }
-        public async Task<int> SaveAsync(int UserId)
-        {
-            return await _context.SaveChangesAsync(UserId);
-        }
+
+
+        //public async Task<int> SaveAsync(int UserId)
+        //{
+        //    return await _context.SaveChangesAsync(UserId);
+        //}
 
 
         public void Dispose() {

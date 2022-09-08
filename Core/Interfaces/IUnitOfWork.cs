@@ -10,7 +10,7 @@ namespace Core.Interfaces
         IGenericRepository<Role> Roles { get; }
 
         Task<int> SaveAsync();
-        Task<int> SaveAsync(int UserId);
+        //Task<int> SaveAsync(int UserId);
 
     }
 

@@ -59,10 +59,10 @@ public class AuthController : BaseApiController {
 
         string ClientIPAddr = HttpContext.Connection.RemoteIpAddress?.ToString();
         string test = HttpContext.Request.Headers["User-Agent"];
-        model.CreatedAt = DateTime.Now;
-        model.CreatedBy = CurrentUserId;
+        //model.CreatedAt = DateTime.Now;
+        //model.CreatedBy = CurrentUserId;
 
-        var roleid = CurrentRoleId;
+        //var roleid = CurrentRoleId;
         var result = await _authService.RegisterAsync(model);
         return Ok(result);
     }

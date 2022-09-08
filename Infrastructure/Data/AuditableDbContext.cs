@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using Core.Entities;
+using Core.Interfaces;
+using Infrastructure.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -8,16 +10,21 @@ namespace Infrastructure.Data
 {
     public abstract class AuditableIdentityContext : DbContext
     {
-        public AuditableIdentityContext(DbContextOptions options) : base(options)
+
+        protected readonly ICurrentUser _currentUser;
+
+        public AuditableIdentityContext(DbContextOptions options, ICurrentUser currentUser) : base(options)
         {
+            _currentUser = currentUser;
         }
+
         public DbSet<Audit> AuditLogs { get; set; }
 
 
-        public virtual async Task<int> SaveChangesAsync(int userId)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             try {
-                var auditEntries = HandleAuditingBeforeSaveChanges(userId);
+                var auditEntries = HandleAuditingBeforeSaveChanges(_currentUser.GetUserId());
                 int result = await base.SaveChangesAsync();
                 await HandleAuditingAfterSaveChangesAsync(auditEntries);
 
@@ -38,6 +45,7 @@ namespace Infrastructure.Data
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedBy = userId;
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
                         entry.Entity.ModifiedAt = DateTime.UtcNow;

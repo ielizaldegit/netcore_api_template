@@ -46,8 +46,8 @@ namespace API.Services
             if (CheckPassword == PasswordVerificationResult.Success)
             {
                 UserDTO response = _mapper.Map<UserDTO>(usuario);
-                JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
-                response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                //JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
+                response.Token = _unitOfWork.Users.GenerateJwt(usuario); //new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
                 response.Modules = ProcessModules(usuario);
                 response.Persons = ProcessPersons(usuario);
@@ -83,13 +83,14 @@ namespace API.Services
                     }
 
                     _unitOfWork.Users.Add(usuario);
-                    await _unitOfWork.SaveAsync(request.CreatedBy ?? 0);
+                    //await _unitOfWork.SaveAsync(request.CreatedBy ?? 0);
+                    await _unitOfWork.SaveAsync();
 
 
                     UserDTO dto = _mapper.Map<UserDTO>(usuario);
 
-                    JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
-                    dto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                    //JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
+                    dto.Token = _unitOfWork.Users.GenerateJwt(usuario);// new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
                     dto.Modules = ProcessModules(usuario);
 
                     return dto;
@@ -189,29 +190,32 @@ namespace API.Services
             }
 
         }
-        private JwtSecurityToken CreateJwtToken(User usuario)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, usuario.Name),
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                //new Claim(ClaimTypes.NameIdentifier, usuario.UserId.ToString()),
-                new Claim("role" , usuario.Role.Name),
-                new Claim("role_id", usuario.Role.RoleId.ToString())
-            };
 
 
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-            var jwtSecurityToken = new JwtSecurityToken(
-                issuer: _jwt.Issuer,
-                audience: _jwt.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
-                signingCredentials: signingCredentials);
-            return jwtSecurityToken;
-        }
+
+        //private JwtSecurityToken CreateJwtToken(User usuario)
+        //{
+        //    var claims = new[]
+        //    {
+        //        new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
+        //        new Claim(JwtRegisteredClaimNames.Name, usuario.Name),
+        //        new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+        //        //new Claim(ClaimTypes.NameIdentifier, usuario.UserId.ToString()),
+        //        new Claim("role" , usuario.Role.Name),
+        //        new Claim("role_id", usuario.Role.RoleId.ToString())
+        //    };
+
+
+        //    var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
+        //    var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+        //    var jwtSecurityToken = new JwtSecurityToken(
+        //        issuer: _jwt.Issuer,
+        //        audience: _jwt.Audience,
+        //        claims: claims,
+        //        expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
+        //        signingCredentials: signingCredentials);
+        //    return jwtSecurityToken;
+        //}
 
 
 

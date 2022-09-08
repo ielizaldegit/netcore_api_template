@@ -2,6 +2,7 @@
 using API.Extensions;
 using API.Helpers.Errors;
 using AspNetCoreRateLimit;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -22,7 +23,9 @@ builder.Services.ConfigureRateLimit(builder.Configuration);
 builder.Services.ConfigureCors();
 builder.Services.AddAplicacionServices();
 //builder.Services.ConfigureApiVersioning();
-builder.Services.AddJwt(builder.Configuration);
+
+
+//builder.Services.AddJwt(builder.Configuration);
 
 
 builder.Services
@@ -34,6 +37,9 @@ builder.Services
          options.JsonSerializerOptions.PropertyNamingPolicy = null;
     })
     .AddXmlDataContractSerializerFormatters();
+
+builder.Services.AddInfrastructure(builder.Configuration);
+
 
 builder.Services.AddValidationErrors();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -85,6 +91,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseInfrastructure(builder.Configuration);
 app.UseCors();
 app.MapControllers();
 app.Run();
