@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Migrator.MSSQL", "Infrastructure.Migrator.MSSQL\Infrastructure.Migrator.MSSQL.csproj", "{4C2F2317-EFDA-42C4-94B0-59E7C824CABB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{BED841FF-8406-48E3-84DC-C324A13E3B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BED841FF-8406-48E3-84DC-C324A13E3B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BED841FF-8406-48E3-84DC-C324A13E3B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2F2317-EFDA-42C4-94B0-59E7C824CABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2F2317-EFDA-42C4-94B0-59E7C824CABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2F2317-EFDA-42C4-94B0-59E7C824CABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2F2317-EFDA-42C4-94B0-59E7C824CABB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

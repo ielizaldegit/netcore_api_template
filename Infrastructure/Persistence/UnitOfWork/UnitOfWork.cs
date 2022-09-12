@@ -1,11 +1,11 @@
 ﻿using Core.Entities.Auth;
 using Core.Interfaces;
 using Infrastructure.Auth;
-using Infrastructure.Data;
-using Infrastructure.Repositories;
+using Infrastructure.Persistence.Context;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.Extensions.Options;
 
-namespace Infrastructure.UnitOfWork
+namespace Infrastructure.Persistence.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

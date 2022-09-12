@@ -6,7 +6,7 @@ using Infrastructure.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Persistence.Context
 {
     public abstract class AuditableIdentityContext : DbContext
     {

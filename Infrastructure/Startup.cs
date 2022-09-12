@@ -1,10 +1,13 @@
 ﻿using Infrastructure.Auth;
+using Infrastructure.Common;
+using Infrastructure.Cors;
 using Infrastructure.Mapping;
+using Infrastructure.Middleware;
+using Infrastructure.OpenApi;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Infrastructure;
 
@@ -16,22 +19,22 @@ public static class Startup{
 
         return services
             //.AddApiVersioning()
-            .AddAuth(config);
+            .AddAuth(config)
             //.AddBackgroundJobs(config)
             //.AddCaching(config)
-            //.AddCorsPolicy(config)
-            //.AddExceptionMiddleware()
+            .AddCorsPolicy(config)
+            .AddExceptionMiddleware()
             //.AddHealthCheck()
             //.AddLocalization(config)
             //.AddMailing(config)
             //.AddMediatR(Assembly.GetExecutingAssembly())
             //.AddMultitenancy(config)
             //.AddNotifications(config)
-            //.AddOpenApiDocumentation(config)
-            //.AddPersistence(config)
+            .AddOpenApiDocumentation(config)
+            .AddPersistence(config)
             //.AddRequestLogging(config)
             //.AddRouting(options => options.LowercaseUrls = true)
-            //.AddServices();
+            .AddServices();
     }
 
 
@@ -46,31 +49,29 @@ public static class Startup{
     //private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
     //    services.AddHealthChecks().AddCheck<TenantHealthCheck>("Tenant").Services;
 
-    //public static async Task InitializeDatabasesAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
-    //{
-    //    // Create a new scope to retrieve scoped services
-    //    using var scope = services.CreateScope();
-
-    //    await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>()
-    //        .InitializeDatabasesAsync(cancellationToken);
-    //}
+    public static async Task InitializeDatabasesAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
+    {
+        using var scope = services.CreateScope();
+        await scope.ServiceProvider.GetRequiredService<ApplicationDbInitializer>().InitializeAsync(cancellationToken);
+    }
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
         builder
             //.UseLocalization(config)
-            //.UseStaticFiles()
+            .UseHttpsRedirection()
+            .UseStaticFiles()
             //.UseSecurityHeaders(config)
             //.UseFileStorage()
-            //.UseExceptionMiddleware()
+            .UseExceptionMiddleware()
             //.UseRouting()
-            //.UseCorsPolicy()
-            //.UseAuthentication()
-            .UseCurrentUser();
+            .UseCorsPolicy()
+            .UseAuthentication()
+            .UseCurrentUser()
             //.UseMultiTenancy()
-            //.UseAuthorization()
+            .UseAuthorization()
             //.UseRequestLogging(config)
             //.UseHangfireDashboard(config)
-            //.UseOpenApiDocumentation(config);
+            .UseOpenApiDocumentation(config);
 
     //public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)
     //{

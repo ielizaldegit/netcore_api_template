@@ -2,11 +2,12 @@
 using Core.Entities.Addresses;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
+using Infrastructure.Persistence.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Infrastructure.Data.Configuration
+namespace Infrastructure.Persistence.Configuration
 {
 
 

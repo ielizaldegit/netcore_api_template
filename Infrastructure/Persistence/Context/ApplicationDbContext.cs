@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Core.Entities.Addresses;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
-using Core.Entities.Addresses;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Persistence.Context
 {
     public class ApplicationDbContext : AuditableIdentityContext
     {

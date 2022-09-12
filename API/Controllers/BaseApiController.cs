@@ -27,14 +27,16 @@ namespace API.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public ObjectResult HandleErrors(Exception ex)
         {
-            return ex switch
-            {
-                BadRequestException => BadRequest(new ApiResponse(400, ex.Message)),
-                UnauthorizedException => Unauthorized(new ApiResponse(401, ex.Message)),
-                NotFoundException => Unauthorized(new ApiResponse(404, ex.Message)),
-                _ => StatusCode(500, new ApiResponse(500, ex.Message)),
+            return new ObjectResult(new { });
 
-            };
+            //return ex switch
+            //{
+            //    BadRequestException => BadRequest(new ApiResponse(400, ex.Message)),
+            //    UnauthorizedException => Unauthorized(new ApiResponse(401, ex.Message)),
+            //    NotFoundException => Unauthorized(new ApiResponse(404, ex.Message)),
+            //    _ => StatusCode(500, new ApiResponse(500, ex.Message)),
+
+            //};
 
         }
 

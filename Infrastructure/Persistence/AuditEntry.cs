@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Text.Json;
 
 
-namespace Infrastructure.Data
+namespace Infrastructure.Persistence
 {
 
     public class AuditEntry

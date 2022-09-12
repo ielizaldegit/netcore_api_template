@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text;
+using Core.Common.Exceptions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -53,13 +54,12 @@ internal static class Startup
                         context.HandleResponse();
                         if (!context.Response.HasStarted)
                         {
-                            //throw new UnauthorizedException("Authentication Failed.");
-                            throw new Exception("Authentication Failed.");
+                            throw new UnauthorizedException("Authentication Failed.");
                         }
 
                         return Task.CompletedTask;
                     },
-                    OnForbidden = _ => throw new Exception("You are not authorized to access this resource."), //throw new ForbiddenException("You are not authorized to access this resource."),
+                    OnForbidden = _ => throw new ForbiddenException("You are not authorized to access this resource."),
                     OnMessageReceived = context =>
                     {
                         var accessToken = context.Request.Query["access_token"];

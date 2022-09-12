@@ -6,6 +6,7 @@ using API.DTOs;
 using API.Helpers;
 using API.Helpers.Errors;
 using AutoMapper;
+using Core.Common.Exceptions;
 using Core.Entities.Auth;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +39,7 @@ namespace API.Services
 
             if (usuario == null)
             {
-                throw new UnauthorizedException($"Credenciales incorrectas para el usuario {request.Name}.");
+                throw new Exception($"Credenciales incorrectas para el usuario {request.Name}.");
             }
 
             var CheckPassword = _passwordHasher.VerifyHashedPassword(usuario, usuario.Password, request.Password);
@@ -57,7 +58,7 @@ namespace API.Services
             }
 
             //return null;
-            throw new UnauthorizedException($"Credenciales incorrectas para el usuario {usuario.Name}.");
+            throw new Exception($"Credenciales incorrectas para el usuario {usuario.Name}.");
 
         }
         public async Task<UserDTO> RegisterAsync(RegisterRequestDTO request)
@@ -97,12 +98,12 @@ namespace API.Services
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("El usuario no pudo ser registrado correctamente");
+                    throw new InternalServerException("El usuario no pudo ser registrado correctamente");
                 }
             }
             else
             {
-                throw new Exception($"El usuario {request.Name} ya se encuentra registrado.");
+                throw new InternalServerException($"El usuario {request.Name} ya se encuentra registrado.");
             }
         }
 

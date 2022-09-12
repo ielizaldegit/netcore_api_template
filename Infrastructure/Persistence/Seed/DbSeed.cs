@@ -5,12 +5,10 @@ using Core.Entities.Addresses;
 using Microsoft.Extensions.Logging;
 
 
-namespace Infrastructure.Data.Configuration
+namespace Infrastructure.Persistence.Seed
 {
     public class DbSeed
     {
-
-
 
 
         #region Auth Seed

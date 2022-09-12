@@ -4,11 +4,11 @@ using System.Text;
 using Core.Entities.Auth;
 using Core.Interfaces;
 using Infrastructure.Auth;
-using Infrastructure.Data;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class AuthRepository : IAuthRepository {
         public AuthRepository(ApplicationDbContext context)

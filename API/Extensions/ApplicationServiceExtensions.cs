@@ -6,7 +6,7 @@ using API.Services;
 using AspNetCoreRateLimit;
 using Core.Entities.Auth;
 using Core.Interfaces;
-using Infrastructure.UnitOfWork;
+using Infrastructure.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +18,19 @@ namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services) => 
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.SetIsOriginAllowed(_ => true)
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader()
-                                    .AllowCredentials()
-                                    .WithExposedHeaders("x-custom-header");
-                    });
-            });
+        //public static void ConfigureCors(this IServiceCollection services) => 
+        //    services.AddCors(options =>
+        //    {
+        //        options.AddDefaultPolicy(
+        //            builder =>
+        //            {
+        //                builder.SetIsOriginAllowed(_ => true)
+        //                            .AllowAnyMethod()
+        //                            .AllowAnyHeader()
+        //                            .AllowCredentials()
+        //                            .WithExposedHeaders("x-custom-header");
+        //            });
+        //    });
 
 
         public static void AddAplicacionServices(this IServiceCollection services)
@@ -97,55 +97,55 @@ namespace API.Extensions
 
 
 
-        public static void ConfigureSwagger(this IServiceCollection services) =>
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "API Template",
-                    Description = "Proyecto de inicio para construcción de un API REST",
-                    TermsOfService = new Uri("https://swplus.com.mx"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "SW Tecnologías",
-                        Url = new Uri("https://swplus.com.mx")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
+        //public static void ConfigureSwagger(this IServiceCollection services) =>
+        //    services.AddSwaggerGen(options =>
+        //    {
+        //        options.SwaggerDoc("v1", new OpenApiInfo
+        //        {
+        //            Version = "v1",
+        //            Title = "API Template",
+        //            Description = "Proyecto de inicio para construcción de un API REST",
+        //            TermsOfService = new Uri("https://swplus.com.mx"),
+        //            Contact = new OpenApiContact
+        //            {
+        //                Name = "SW Tecnologías",
+        //                Url = new Uri("https://swplus.com.mx")
+        //            },
+        //            License = new OpenApiLicense
+        //            {
+        //                Name = "Example License",
+        //                Url = new Uri("https://example.com/license")
+        //            }
+        //        });
 
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            options.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, xmlFilename));
+        //    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        //    options.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, xmlFilename));
 
-            });
-
-
+        //    });
 
 
-        public static void AddValidationErrors(this IServiceCollection services)
-        {
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = actionContext =>
-                {
 
-                    var errors = actionContext.ModelState.Where(u => u.Value.Errors.Count > 0)
-                                                    .SelectMany(u => u.Value.Errors)
-                                                    .Select(u => u.ErrorMessage).ToArray();
 
-                    var errorResponse = new ApiValidation()
-                    {
-                        Errors = errors
-                    };
+        //public static void AddValidationErrors(this IServiceCollection services)
+        //{
+        //    services.Configure<ApiBehaviorOptions>(options =>
+        //    {
+        //        options.InvalidModelStateResponseFactory = actionContext =>
+        //        {
 
-                    return new BadRequestObjectResult(errorResponse);
-                };
-            });
-        }
+        //            var errors = actionContext.ModelState.Where(u => u.Value.Errors.Count > 0)
+        //                                            .SelectMany(u => u.Value.Errors)
+        //                                            .Select(u => u.ErrorMessage).ToArray();
+
+        //            var errorResponse = new ApiValidation()
+        //            {
+        //                Errors = errors
+        //            };
+
+        //            return new BadRequestObjectResult(errorResponse);
+        //        };
+        //    });
+        //}
 
 
 
