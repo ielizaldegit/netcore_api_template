@@ -2,7 +2,6 @@
 using Core.Common.Exceptions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Localization;
 using Serilog;
 using Serilog.Context;
 
@@ -29,18 +28,30 @@ internal class ExceptionMiddleware : IMiddleware
         try
         {
             await next(context);
+
+            if (context.Response.StatusCode == (int)HttpStatusCode.MethodNotAllowed && context.Response.HasStarted == false)
+            {
+                var errorResult = new ErrorResult
+                {
+                    Exception = $"The requested resource does not support http method '{context.Request.Method}'.",
+                    StatusCode = 405
+                };
+                errorResult.Errors = null;
+                context.Response.StatusCode = 405;
+                context.Response.ContentType = "application/json; charset=utf-8";
+                await context.Response.WriteAsync(_jsonSerializer.Serialize(errorResult));
+            }
+
+
         }
         catch (Exception exception)
         {
             string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
             var userId = _currentUser.GetUserId();
-
-            if (userId > 0) LogContext.PushProperty("UserId", userId);
-
-            LogContext.PushProperty("UserEmail", email);
-
             string errorId = Guid.NewGuid().ToString();
 
+            if (userId > 0) LogContext.PushProperty("UserId", userId);
+            LogContext.PushProperty("UserEmail", email);
             LogContext.PushProperty("ErrorId", errorId);
             LogContext.PushProperty("StackTrace", exception.StackTrace);
 
@@ -49,9 +60,9 @@ internal class ExceptionMiddleware : IMiddleware
                 Source = exception.TargetSite?.DeclaringType?.FullName,
                 Exception = exception.Message.Trim(),
                 ErrorId = errorId,
-                SupportMessage = "supportmessage"//_localizer["exceptionmiddleware.supportmessage"]
+                SupportMessage = "Provide the ErrorId to the support team for further analysis."
             };
-            errorResult.Messages!.Add(exception.Message);
+            errorResult.Errors!.Add(exception.Message);
             var response = context.Response;
             response.ContentType = "application/json";
 
@@ -69,7 +80,7 @@ internal class ExceptionMiddleware : IMiddleware
                     response.StatusCode = errorResult.StatusCode = (int)e.StatusCode;
                     if (e.ErrorMessages is not null)
                     {
-                        errorResult.Messages = e.ErrorMessages;
+                        errorResult.Errors = e.ErrorMessages;
                     }
 
                     break;

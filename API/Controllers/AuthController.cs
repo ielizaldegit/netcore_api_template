@@ -1,9 +1,8 @@
-﻿using System.Net;
-using API.DTOs;
-using API.Helpers.Errors;
+﻿using API.DTOs;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 
 namespace API.Controllers;
 
@@ -18,51 +17,27 @@ public class AuthController : BaseApiController {
     public AuthController(IAuthService authService, ILogger<AuthController> logger) {
         _authService = authService;
         _logger = logger;
-        _logger.LogInformation("Testing logging in AuthController");
     }
 
 
 
-    /// <summary>
-    /// Inicio de sesión de un usuario registrado y activo
-    /// </summary>
-    /// <remarks>
-    /// Description:
-    /// Lorem Ipsum...
-    /// </remarks>
     [HttpPost("login")]
+    [OpenApiOperation("Inicio de sesión de un usuario registrado y activo.", "Descripción: Lorem Ipsum...")]
     public async Task<ActionResult<UserDTO>> LoginAsync(LoginRequestDTO model)
     {
-        try  {
-            var result = await _authService.LoginAsync(model);
-            return Ok(result);
-        }
-        catch (Exception ex) {
-            return HandleErrors(ex);
-        }
+        var result = await _authService.LoginAsync(model);
+        return Ok(result);
     }
 
 
-
-
-    /// <summary>
-    /// Registra un nuevo usuario
-    /// </summary>
-    /// <remarks>
-    /// Description:
-    /// Lorem Ipsum...
-    /// </remarks>
     [Authorize]
     [HttpPost("register")]
+    [OpenApiOperation("Registra un nuevo usuario.", "Descripción: Lorem Ipsum...")]
     public async Task<ActionResult<UserDTO>> RegisterAsync(RegisterRequestDTO model)
     {
-
         string ClientIPAddr = HttpContext.Connection.RemoteIpAddress?.ToString();
         string test = HttpContext.Request.Headers["User-Agent"];
-        //model.CreatedAt = DateTime.Now;
-        //model.CreatedBy = CurrentUserId;
 
-        //var roleid = CurrentRoleId;
         var result = await _authService.RegisterAsync(model);
         return Ok(result);
     }

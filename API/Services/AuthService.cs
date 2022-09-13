@@ -1,30 +1,20 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-using API.DTOs;
-using API.Helpers;
-using API.Helpers.Errors;
+﻿using API.DTOs;
 using AutoMapper;
 using Core.Common.Exceptions;
 using Core.Entities.Auth;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 
 namespace API.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly JWT _jwt;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMapper _mapper;
 
-        public AuthService(IUnitOfWork unitOfWork, IOptions<JWT> jwt,IPasswordHasher<User> passwordHasher,IMapper mapper) {
-            _jwt = jwt.Value;
+        public AuthService(IUnitOfWork unitOfWork,IPasswordHasher<User> passwordHasher,IMapper mapper) {
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
@@ -39,7 +29,7 @@ namespace API.Services
 
             if (usuario == null)
             {
-                throw new Exception($"Credenciales incorrectas para el usuario {request.Name}.");
+                throw new UnauthorizedException($"Credenciales incorrectas para el usuario {request.Name}.");
             }
 
             var CheckPassword = _passwordHasher.VerifyHashedPassword(usuario, usuario.Password, request.Password);
@@ -47,18 +37,14 @@ namespace API.Services
             if (CheckPassword == PasswordVerificationResult.Success)
             {
                 UserDTO response = _mapper.Map<UserDTO>(usuario);
-                //JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
-                response.Token = _unitOfWork.Users.GenerateJwt(usuario); //new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-
+                response.Token = _unitOfWork.Users.GenerateJwt(usuario);
                 response.Modules = ProcessModules(usuario);
                 response.Persons = ProcessPersons(usuario);
-
 
                 return response;
             }
 
-            //return null;
-            throw new Exception($"Credenciales incorrectas para el usuario {usuario.Name}.");
+            throw new UnauthorizedException($"Credenciales incorrectas para el usuario {usuario.Name}.");
 
         }
         public async Task<UserDTO> RegisterAsync(RegisterRequestDTO request)
@@ -70,9 +56,7 @@ namespace API.Services
 
             if (usuarioExiste == null)
             {
-                try
-                {
-                    //Obtener modulos del role para el usuario
+                try {
                     var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId);
                     if (role != null)
                     {
@@ -82,28 +66,22 @@ namespace API.Services
                             usuario.ModuleUsers.Add(new ModuleUser() { ModuleId = mr.ModuleId, PermissionId = mr.PermissionId, Module = mr.Module });
                         }
                     }
-
                     _unitOfWork.Users.Add(usuario);
-                    //await _unitOfWork.SaveAsync(request.CreatedBy ?? 0);
                     await _unitOfWork.SaveAsync();
 
-
                     UserDTO dto = _mapper.Map<UserDTO>(usuario);
-
-                    //JwtSecurityToken jwtSecurityToken = CreateJwtToken(usuario);
-                    dto.Token = _unitOfWork.Users.GenerateJwt(usuario);// new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                    dto.Token = _unitOfWork.Users.GenerateJwt(usuario);
                     dto.Modules = ProcessModules(usuario);
 
                     return dto;
                 }
-                catch (Exception ex)
-                {
-                    throw new InternalServerException("El usuario no pudo ser registrado correctamente");
+                catch (Exception ex) {
+                    throw ex;
                 }
             }
             else
             {
-                throw new InternalServerException($"El usuario {request.Name} ya se encuentra registrado.");
+                throw new BadRequestException($"El usuario {request.Name} ya se encuentra registrado.");
             }
         }
 
@@ -191,32 +169,6 @@ namespace API.Services
             }
 
         }
-
-
-
-        //private JwtSecurityToken CreateJwtToken(User usuario)
-        //{
-        //    var claims = new[]
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.NameId, usuario.UserId.ToString()),
-        //        new Claim(JwtRegisteredClaimNames.Name, usuario.Name),
-        //        new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-        //        //new Claim(ClaimTypes.NameIdentifier, usuario.UserId.ToString()),
-        //        new Claim("role" , usuario.Role.Name),
-        //        new Claim("role_id", usuario.Role.RoleId.ToString())
-        //    };
-
-
-        //    var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
-        //    var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-        //    var jwtSecurityToken = new JwtSecurityToken(
-        //        issuer: _jwt.Issuer,
-        //        audience: _jwt.Audience,
-        //        claims: claims,
-        //        expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
-        //        signingCredentials: signingCredentials);
-        //    return jwtSecurityToken;
-        //}
 
 
 

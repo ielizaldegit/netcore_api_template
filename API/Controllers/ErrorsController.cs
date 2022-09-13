@@ -1,5 +1,4 @@
-﻿using API.Helpers.Errors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {

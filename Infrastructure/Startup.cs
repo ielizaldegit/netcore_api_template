@@ -1,10 +1,12 @@
-﻿using Infrastructure.Auth;
+﻿using AspNetCoreRateLimit;
+using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
 using Infrastructure.Mapping;
 using Infrastructure.Middleware;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
+using Infrastructure.RateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,7 @@ public static class Startup{
             .AddAuth(config)
             //.AddBackgroundJobs(config)
             //.AddCaching(config)
+            .AddRateLimit(config)
             .AddCorsPolicy(config)
             .AddExceptionMiddleware()
             //.AddHealthCheck()
@@ -58,19 +61,23 @@ public static class Startup{
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
         builder
             //.UseLocalization(config)
+            .UseIpRateLimiting()
             .UseHttpsRedirection()
             .UseStaticFiles()
             //.UseSecurityHeaders(config)
             //.UseFileStorage()
             .UseExceptionMiddleware()
+            
             //.UseRouting()
             .UseCorsPolicy()
             .UseAuthentication()
+        
             .UseCurrentUser()
             //.UseMultiTenancy()
             .UseAuthorization()
             //.UseRequestLogging(config)
             //.UseHangfireDashboard(config)
+            
             .UseOpenApiDocumentation(config);
 
     //public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder builder)

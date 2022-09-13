@@ -33,6 +33,8 @@
     <None Remove="Persistence\Configuration\" />
     <None Remove="Persistence\Seed\" />
     <None Remove="Persistence\Context\" />
+    <None Remove="RateLimit\" />
+    <None Remove="AspNetCoreRateLimit" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
@@ -46,6 +48,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.16.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mapping\" />
@@ -61,5 +64,6 @@
     <Folder Include="Persistence\Configuration\" />
     <Folder Include="Persistence\Seed\" />
     <Folder Include="Persistence\Context\" />
+    <Folder Include="RateLimit\" />
   </ItemGroup>
 </Project>
