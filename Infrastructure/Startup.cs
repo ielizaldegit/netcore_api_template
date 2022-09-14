@@ -1,4 +1,6 @@
-﻿using AspNetCoreRateLimit;
+﻿using System.Reflection;
+using API.Profiles;
+using AspNetCoreRateLimit;
 using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
@@ -8,8 +10,11 @@ using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Infrastructure.RateLimit;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure;
 
@@ -20,7 +25,9 @@ public static class Startup{
         MapsterSettings.Configure();
 
         return services
-            //.AddApiVersioning()
+            .AddApiVersioning()
+            //.AddAutoMapper(typeof(MappingProfiles))
+            .AddAutoMapper(Assembly.GetExecutingAssembly())
             .AddAuth(config)
             //.AddBackgroundJobs(config)
             //.AddCaching(config)
@@ -37,17 +44,27 @@ public static class Startup{
             .AddPersistence(config)
             //.AddRequestLogging(config)
             //.AddRouting(options => options.LowercaseUrls = true)
+            
             .AddServices();
     }
 
 
-    //private static IServiceCollection AddApiVersioning(this IServiceCollection services) =>
-    //services.AddApiVersioning(config =>
-    //{
-    //    config.DefaultApiVersion = new ApiVersion(1, 0);
-    //    config.AssumeDefaultVersionWhenUnspecified = true;
-    //    config.ReportApiVersions = true;
-    //});
+    private static IServiceCollection AddApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(config =>
+        {
+            config.DefaultApiVersion = new ApiVersion(1, 0);
+            config.AssumeDefaultVersionWhenUnspecified = true;
+            config.ReportApiVersions = true;
+            config.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+
+        services.AddVersionedApiExplorer(o => { o.GroupNameFormat = "VVV"; o.SubstituteApiVersionInUrl = true; });
+
+        return services;
+    }
+
+
 
     //private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
     //    services.AddHealthChecks().AddCheck<TenantHealthCheck>("Tenant").Services;

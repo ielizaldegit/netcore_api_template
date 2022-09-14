@@ -1,5 +1,5 @@
-﻿using API.DTOs;
-using API.Services;
+﻿using Core.DTOs;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
@@ -7,14 +7,15 @@ using NSwag.Annotations;
 namespace API.Controllers;
 
 
-public class AuthController : BaseApiController {
+public class AuthController : VersionNeutralApiController {
 
 
     private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
 
 
-    public AuthController(IAuthService authService, ILogger<AuthController> logger) {
+    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    {
         _authService = authService;
         _logger = logger;
     }

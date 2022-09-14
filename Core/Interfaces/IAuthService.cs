@@ -1,13 +1,13 @@
 ﻿using System;
-using API.DTOs;
+using Core.DTOs;
 
-namespace API.Services
+namespace Core.Interfaces
 {
     public interface IAuthService
     {
         Task<UserDTO> LoginAsync(LoginRequestDTO request);
         Task<UserDTO> RegisterAsync(RegisterRequestDTO request);
-        
+
     }
 }
 

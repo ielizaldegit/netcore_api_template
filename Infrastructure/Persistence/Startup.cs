@@ -15,13 +15,13 @@ internal static class Startup
     {
         // TODO: there must be a cleaner way to do IOptions validation...
         var databaseSettings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
-        string? rootConnectionString = databaseSettings.ConnectionString;
+        string rootConnectionString = databaseSettings.ConnectionString;
         if (string.IsNullOrEmpty(rootConnectionString))
         {
             throw new InvalidOperationException("DB ConnectionString is not configured.");
         }
 
-        string? dbProvider = databaseSettings.DBProvider;
+        string dbProvider = databaseSettings.DBProvider;
         if (string.IsNullOrEmpty(dbProvider))
         {
             throw new InvalidOperationException("DB Provider is not configured.");

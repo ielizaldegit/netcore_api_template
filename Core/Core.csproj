@@ -14,6 +14,9 @@
     <None Remove="Entities\Addresses\" />
     <None Remove="Common\" />
     <None Remove="Common\Exceptions\" />
+    <None Remove="DTOs\" />
+    <None Remove="Application\" />
+    <None Remove="Domain\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
@@ -23,5 +26,8 @@
     <Folder Include="Entities\Addresses\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Exceptions\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="Application\" />
+    <Folder Include="Domain\" />
   </ItemGroup>
 </Project>

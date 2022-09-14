@@ -1,10 +1,7 @@
-﻿using System;
-using AutoMapper;
-
-using API.DTOs;
+﻿using AutoMapper;
+using Core.DTOs;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
-using Core.Entities.Addresses;
 
 namespace API.Profiles;
 

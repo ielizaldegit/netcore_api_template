@@ -1,9 +1,10 @@
-﻿using API.DTOs;
+﻿using Core.DTOs;
 using AutoMapper;
 using Core.Common.Exceptions;
 using Core.Entities.Auth;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 
 namespace API.Services
@@ -13,11 +14,13 @@ namespace API.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUnitOfWork unitOfWork,IPasswordHasher<User> passwordHasher,IMapper mapper) {
+        public AuthService(IUnitOfWork unitOfWork,IPasswordHasher<User> passwordHasher,IMapper mapper, ILogger<AuthService> logger) {
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -76,6 +79,7 @@ namespace API.Services
                     return dto;
                 }
                 catch (Exception ex) {
+                    _logger.LogError(ex, ex.Message);
                     throw ex;
                 }
             }
@@ -144,6 +148,7 @@ namespace API.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 return null;
             }
            
@@ -165,6 +170,7 @@ namespace API.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 return null;
             }
 
