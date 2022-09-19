@@ -1,5 +1,7 @@
-﻿using Core.Entities.Auth;
+﻿using Ardalis.Specification;
+using Core.Entities.Auth;
 using Core.Interfaces;
+using Core.Interfaces.Repository;
 using Infrastructure.Auth;
 using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Repositories;
@@ -11,11 +13,11 @@ namespace Infrastructure.Persistence.UnitOfWork
     {
 
         private readonly ApplicationDbContext _context;
-        
-        private IAuthRepository _auth;
-        private IUserRepository _users;
-        private IRoleRepository _roles;
         private readonly JwtSettings _jwtSettings;
+
+        private IAuthRepository _auth;
+        private IRepositoryBase<User> _users;
+        private IRepositoryBase<Role> _roles;
 
 
         public UnitOfWork(ApplicationDbContext context, IOptions<JwtSettings> jwtSettings) {
@@ -24,16 +26,16 @@ namespace Infrastructure.Persistence.UnitOfWork
         }
 
         public IAuthRepository Auth {
-            get { return _auth = _auth ?? new AuthRepository(_context); }
+            get { return _auth = _auth ?? new AuthRepository(_jwtSettings); }
         }
 
-        public IUserRepository Users {
-            get { return _users = _users ?? new UserRepository(_context, _jwtSettings); }
+        public IRepositoryBase<User> Users {
+            get { return _users = _users ?? new GenericRepository<User>(_context); }
         }
 
-        public IGenericRepository<Role> Roles
+        public IRepositoryBase<Role> Roles
         {
-            get { return _roles = _roles ?? new RoleRepository(_context); }
+            get { return _roles = _roles ?? new GenericRepository<Role>(_context); }
         }
 
 

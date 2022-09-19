@@ -11,7 +11,9 @@ public class CurrentUserMiddleware : IMiddleware
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        _currentUserInitializer.SetCurrentUser(context.User);
+        var ip = context.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "N/A";
+        var agent = context.Request.Headers["User-Agent"];
+        _currentUserInitializer.SetCurrentUser(context.User, ip, agent);
 
         await next(context);
     }

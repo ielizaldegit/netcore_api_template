@@ -19,12 +19,14 @@ namespace Infrastructure.Persistence.Configuration
             builder.Property(p => p.Id).IsRequired().HasColumnName("audit_id").HasColumnType("int").HasColumnOrder(1).UseIdentityColumn();
             builder.Property(p => p.UserId).HasColumnName("user_id").HasColumnType("int").HasColumnOrder(2);
             builder.Property(p => p.Type).HasMaxLength(200).HasColumnName("type").HasColumnType("nvarchar").HasColumnOrder(3);
-            builder.Property(p => p.TableName).HasMaxLength(200).HasColumnName("table_name").HasColumnType("nvarchar").HasColumnOrder(4);
-            builder.Property(p => p.DateTime).HasColumnName("date").HasColumnType("datetime2").HasColumnOrder(5);
-            builder.Property(p => p.OldValues).HasMaxLength(4000).HasColumnName("old_values").HasColumnType("nvarchar").HasColumnOrder(6);
-            builder.Property(p => p.NewValues).HasMaxLength(4000).HasColumnName("new_values").HasColumnType("nvarchar").HasColumnOrder(7);
-            builder.Property(p => p.AffectedColumns).HasMaxLength(4000).HasColumnName("affected_columns").HasColumnType("nvarchar").HasColumnOrder(8);
-            builder.Property(p => p.PrimaryKey).HasMaxLength(4000).HasColumnName("primary_key").HasColumnType("nvarchar").HasColumnOrder(9);
+            builder.Property(p => p.IpAddress).HasMaxLength(200).HasColumnName("ip_address").HasColumnType("nvarchar").HasColumnOrder(4);
+            builder.Property(p => p.UserAgent).HasMaxLength(500).HasColumnName("user_agent").HasColumnType("nvarchar").HasColumnOrder(5);
+            builder.Property(p => p.TableName).HasMaxLength(200).HasColumnName("table_name").HasColumnType("nvarchar").HasColumnOrder(6);
+            builder.Property(p => p.DateTime).HasColumnName("date").HasColumnType("datetime2").HasColumnOrder(7);
+            builder.Property(p => p.OldValues).HasMaxLength(4000).HasColumnName("old_values").HasColumnType("nvarchar").HasColumnOrder(8);
+            builder.Property(p => p.NewValues).HasMaxLength(4000).HasColumnName("new_values").HasColumnType("nvarchar").HasColumnOrder(9);
+            builder.Property(p => p.AffectedColumns).HasMaxLength(4000).HasColumnName("affected_columns").HasColumnType("nvarchar").HasColumnOrder(10);
+            builder.Property(p => p.PrimaryKey).HasMaxLength(4000).HasColumnName("primary_key").HasColumnType("nvarchar").HasColumnOrder(11);
 
         }
     }

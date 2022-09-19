@@ -1,75 +1,16 @@
-﻿using System.Linq.Expressions;
-using Core.Interfaces;
+﻿using System;
+using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Infrastructure.Persistence.Context;
-using Microsoft.EntityFrameworkCore;
 
-
-namespace Infrastructure.Persistence.Repositories;
-
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+namespace Infrastructure.Persistence.Repositories
 {
-    protected readonly ApplicationDbContext _context;
-    protected readonly DbSet<T> _dbSet;
-
-
-    public GenericRepository(ApplicationDbContext context)
+    public class GenericRepository<T> : RepositoryBase<T> where T : class
     {
-        _context = context;
-        _dbSet = context.Set<T>();
-    }
+        public GenericRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
 
-    public virtual void Add(T entity)
-    {
-        _dbSet.Add(entity);
-    }
-
-    public virtual void AddRange(IEnumerable<T> entities)
-    {
-        _dbSet.AddRange(entities);
-    }
-
-    public virtual IEnumerable<T> Find(Expression<Func<T, bool>> expression)
-    {
-        return _dbSet.Where(expression);
-    }
-
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
-
-    public virtual async Task<(int totalRegistros, IEnumerable<T> registros)> GetAllAsync(
-        int pageIndex, int pageSize, string search)
-    {
-        var totalRegistros = await _dbSet.CountAsync();
-
-        var registros = await _dbSet
-                                .Skip((pageIndex - 1) * pageSize)
-                                .Take(pageSize)
-                                .ToListAsync();
-
-        return (totalRegistros, registros);
-
-    }
-
-
-    public virtual async Task<T> GetByIdAsync(int id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
-
-    public virtual void Remove(T entity)
-    {
-        _dbSet.Remove(entity);
-    }
-
-    public virtual void RemoveRange(IEnumerable<T> entities)
-    {
-        _dbSet.RemoveRange(entities);
-    }
-
-    public virtual void Update(T entity)
-    {
-        _dbSet.Update(entity);
     }
 }
+

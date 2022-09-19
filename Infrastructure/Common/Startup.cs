@@ -1,7 +1,5 @@
-﻿using API.Services;
-using Core.Entities.Auth;
+﻿using Core.Entities.Auth;
 using Core.Interfaces;
-using Infrastructure.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,14 +9,10 @@ internal static class Startup
 {
     internal static IServiceCollection AddServices(this IServiceCollection services) =>
         services
-
             .AddScoped<IPasswordHasher<User>, PasswordHasher<User>>()
-            .AddScoped<IAuthService, AuthService>()
-            //.AddScoped<IUnitOfWork, UnitOfWork>()
-
-
             .AddServices(typeof(ITransientService), ServiceLifetime.Transient)
             .AddServices(typeof(IScopedService), ServiceLifetime.Scoped);
+
 
     internal static IServiceCollection AddServices(this IServiceCollection services, Type interfaceType, ServiceLifetime lifetime)
     {

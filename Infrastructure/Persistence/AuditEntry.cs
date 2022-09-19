@@ -16,6 +16,9 @@ namespace Infrastructure.Persistence
         public EntityEntry Entry { get; }
         public int UserId { get; set; }
         public string TableName { get; set; }
+        public string IpAddress { get; set; }
+        public string UserAgent { get; set; }
+
         public Dictionary<string, object> KeyValues { get; } = new Dictionary<string, object>();
         public Dictionary<string, object> OldValues { get; } = new Dictionary<string, object>();
         public Dictionary<string, object> NewValues { get; } = new Dictionary<string, object>();
@@ -32,6 +35,8 @@ namespace Infrastructure.Persistence
             audit.UserId = UserId;
             audit.Type = AuditType.ToString();
             audit.TableName = TableName;
+            audit.IpAddress = IpAddress;
+            audit.UserAgent = UserAgent;
             audit.DateTime = DateTime.UtcNow;
             audit.PrimaryKey = JsonSerializer.Serialize(KeyValues);
             audit.OldValues = OldValues.Count == 0 ? null : JsonSerializer.Serialize(OldValues);

@@ -15,7 +15,6 @@
     <None Remove="Microsoft.EntityFrameworkCore" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
-    <None Remove="Mapping\" />
     <None Remove="Auth\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Middlewares\" />
@@ -37,6 +36,7 @@
     <None Remove="AspNetCoreRateLimit" />
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
+    <None Remove="Ardalis.Specification.EntityFrameworkCore" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
@@ -53,9 +53,9 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mapping\" />
     <Folder Include="Auth\" />
     <Folder Include="Middleware\" />
     <Folder Include="Common\" />

@@ -1,13 +1,14 @@
-﻿using Core.DTOs;
-using AutoMapper;
+﻿using AutoMapper;
+using Core.Application.Auth;
 using Core.Common.Exceptions;
+using Core.DTOs;
 using Core.Entities.Auth;
 using Core.Interfaces;
+using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-
-namespace API.Services
+namespace Core.Aplication.Auth
 {
     public class AuthService : IAuthService
     {
@@ -16,19 +17,18 @@ namespace API.Services
         private readonly IMapper _mapper;
         private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUnitOfWork unitOfWork,IPasswordHasher<User> passwordHasher,IMapper mapper, ILogger<AuthService> logger) {
+        public AuthService(IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher, IMapper mapper, ILogger<AuthService> logger)
+        {
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
             _logger = logger;
         }
 
-
-
         public async Task<UserDTO> LoginAsync(LoginRequestDTO request)
         {
 
-            var usuario = await _unitOfWork.Users.GetByUsernameAsync(request.Name);
+            var usuario = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Name));
 
             if (usuario == null)
             {
@@ -40,7 +40,7 @@ namespace API.Services
             if (CheckPassword == PasswordVerificationResult.Success)
             {
                 UserDTO response = _mapper.Map<UserDTO>(usuario);
-                response.Token = _unitOfWork.Users.GenerateJwt(usuario);
+                response.Token = _unitOfWork.Auth.GenerateJwt(usuario);
                 response.Modules = ProcessModules(usuario);
                 response.Persons = ProcessPersons(usuario);
 
@@ -54,13 +54,15 @@ namespace API.Services
         {
             User usuario = _mapper.Map<User>(request);
             usuario.Password = _passwordHasher.HashPassword(usuario, request.Password);
+            usuario.IsActive = true;
 
-            var usuarioExiste = _unitOfWork.Users.Find(u => u.Name.ToLower() == request.Name.ToLower()).FirstOrDefault();
+            var existe = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Name));
 
-            if (usuarioExiste == null)
+            if (existe == null)
             {
-                try {
-                    var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId);
+                try
+                {
+                    var role = await _unitOfWork.Roles.FirstOrDefaultAsync(new RolebyId(request.RoleId));
                     if (role != null)
                     {
                         usuario.ModuleUsers = new List<ModuleUser>();
@@ -69,16 +71,17 @@ namespace API.Services
                             usuario.ModuleUsers.Add(new ModuleUser() { ModuleId = mr.ModuleId, PermissionId = mr.PermissionId, Module = mr.Module });
                         }
                     }
-                    _unitOfWork.Users.Add(usuario);
+                    await _unitOfWork.Users.AddAsync(usuario);
                     await _unitOfWork.SaveAsync();
 
                     UserDTO dto = _mapper.Map<UserDTO>(usuario);
-                    dto.Token = _unitOfWork.Users.GenerateJwt(usuario);
+                    dto.Token = _unitOfWork.Auth.GenerateJwt(usuario);
                     dto.Modules = ProcessModules(usuario);
 
                     return dto;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     _logger.LogError(ex, ex.Message);
                     throw;
                 }
@@ -88,8 +91,6 @@ namespace API.Services
                 throw new BadRequestException($"El usuario {request.Name} ya se encuentra registrado.");
             }
         }
-
-
 
         private List<ModuleDTO> ProcessModules(User usuario)
         {
@@ -151,7 +152,7 @@ namespace API.Services
                 _logger.LogError(ex, ex.Message);
                 return null;
             }
-           
+
         }
         private List<PersonDTO> ProcessPersons(User usuario)
         {

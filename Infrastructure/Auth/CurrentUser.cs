@@ -12,6 +12,11 @@ public class CurrentUser : ICurrentUser, ICurrentUserInitializer
     public string Name => _user?.Identity?.Name;
     private int _userId = 0;
 
+    private string _ip = "";
+    private string _agent = "";
+
+
+
     public int GetUserId() =>
     IsAuthenticated()
             ? int.Parse(FindFirstValue(_user, ClaimTypes.NameIdentifier) ?? null)
@@ -22,28 +27,32 @@ public class CurrentUser : ICurrentUser, ICurrentUserInitializer
             ? FindFirstValue(_user, ClaimTypes.Email)
             : string.Empty;
 
-    public bool IsAuthenticated() =>
-        _user?.Identity?.IsAuthenticated is true;
+    public string GetUserIp() => _ip;
 
-    public bool IsInRole(string role) =>
-        _user?.IsInRole(role) is true;
-
-    public IEnumerable<Claim> GetUserClaims() =>
-        _user?.Claims;
+    public string GetUserAgent() => _agent;
 
 
-    public void SetCurrentUser(ClaimsPrincipal user)
+    public bool IsAuthenticated() => _user?.Identity?.IsAuthenticated is true;
+
+    public bool IsInRole(string role) => _user?.IsInRole(role) is true;
+
+    public IEnumerable<Claim> GetUserClaims() => _user?.Claims;
+
+
+    public void SetCurrentUser(ClaimsPrincipal user, string ip, string agent)
     {
         if (_user != null)
         {
             throw new Exception("Method reserved for in-scope initialization");
         }
         _user = user;
+        _ip = ip;
+        _agent = agent;
     }
 
     public void SetCurrentUserId(int userId)
     {
-        if (_userId > 0)
+        if (_userId < 0)
         {
             throw new Exception("Method reserved for in-scope initialization");
         }

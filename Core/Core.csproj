@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!--<Nullable>enable</Nullable>-->
   </PropertyGroup>
-
+     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
   <ItemGroup>
     <None Remove="Application\" />
     <None Remove="Domain\" />
@@ -14,6 +16,10 @@
     <None Remove="Application\Common\" />
     <None Remove="Domain\Entities\" />
     <None Remove="Domain\Interfaces\" />
+    <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <None Remove="Domain\Interfaces\Repository\" />
+    <None Remove="Domain\Interfaces\Services\" />
+    <None Remove="Ardalis.Specification" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
@@ -23,5 +29,11 @@
     <Folder Include="Application\Common\" />
     <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\Interfaces\" />
+    <Folder Include="Domain\Interfaces\Repository\" />
+    <Folder Include="Domain\Interfaces\Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Ardalis.Specification" Version="6.1.0" />
   </ItemGroup>
 </Project>

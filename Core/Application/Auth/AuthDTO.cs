@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Core.DTOs;
 
-namespace Core.DTOs
+namespace Core.Aplication.Auth
 {
     public class LoginRequestDTO {
         [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre del usuario es requerido")]

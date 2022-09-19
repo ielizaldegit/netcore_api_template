@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrator.MSSQL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220912214023_InitialCreate")]
+    [Migration("20220919185149_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -21834,42 +21834,54 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)")
                         .HasColumnName("affected_columns")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(10);
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("date")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("IpAddress")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("ip_address")
+                        .HasColumnOrder(4);
 
                     b.Property<string>("NewValues")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)")
                         .HasColumnName("new_values")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("OldValues")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)")
                         .HasColumnName("old_values")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("PrimaryKey")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)")
                         .HasColumnName("primary_key")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("TableName")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("table_name")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Type")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("type")
                         .HasColumnOrder(3);
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("user_agent")
+                        .HasColumnOrder(5);
 
                     b.Property<int>("UserId")
                         .HasColumnType("int")
@@ -21978,7 +21990,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 1,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(4990),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 112, DateTimeKind.Local).AddTicks(9960),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-home",
                             Description = "",
@@ -21993,7 +22005,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 2,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5040),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(10),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-settings",
                             Description = "",
@@ -22008,7 +22020,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 3,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5040),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(10),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-user",
                             Description = "",
@@ -22024,7 +22036,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 4,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5050),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(20),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-mod",
                             Description = "",
@@ -22040,7 +22052,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 5,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5050),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(20),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -22056,7 +22068,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 6,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5050),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -22072,7 +22084,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 7,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5060),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -22088,7 +22100,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 8,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 578, DateTimeKind.Local).AddTicks(5060),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-reports",
                             Description = "",
@@ -22820,7 +22832,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 581, DateTimeKind.Local).AddTicks(8570),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 115, DateTimeKind.Local).AddTicks(9040),
                             Email = "ielizalde@swplus.com.mx",
                             EmailConfirmed = true,
                             IsActive = true,
@@ -23232,7 +23244,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             PersonId = 1,
                             AddressId = 1,
                             Birthdate = new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2022, 9, 12, 16, 40, 22, 580, DateTimeKind.Local).AddTicks(9070),
+                            CreatedAt = new DateTime(2022, 9, 19, 13, 51, 49, 115, DateTimeKind.Local).AddTicks(220),
                             Curp = "",
                             Email = "ielizalde@swplus.com.mx",
                             GenderId = 1,

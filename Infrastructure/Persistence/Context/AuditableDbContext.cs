@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence.Context
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             try {
-                var auditEntries = HandleAuditingBeforeSaveChanges(_currentUser.GetUserId());
+                var auditEntries = HandleAuditingBeforeSaveChanges(_currentUser.GetUserId(), _currentUser.GetUserIp(), _currentUser.GetUserAgent());
                 int result = await base.SaveChangesAsync();
                 await HandleAuditingAfterSaveChangesAsync(auditEntries);
 
@@ -37,7 +37,7 @@ namespace Infrastructure.Persistence.Context
         }
 
 
-        private List<AuditEntry> HandleAuditingBeforeSaveChanges(int userId)
+        private List<AuditEntry> HandleAuditingBeforeSaveChanges(int userId, string ip, string agent)
         {
             foreach (var entry in ChangeTracker.Entries<AuditBaseEntity>().ToList())
             {
@@ -66,7 +66,9 @@ namespace Infrastructure.Persistence.Context
                 var trailEntry = new AuditEntry(entry)
                 {
                     TableName = entry.Entity.GetType().Name,
-                    UserId = userId
+                    UserId = userId,
+                    UserAgent = agent,
+                    IpAddress = ip
                 };
                 trailEntries.Add(trailEntry);
                 foreach (var property in entry.Properties)

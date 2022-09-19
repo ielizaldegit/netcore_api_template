@@ -13,7 +13,6 @@ internal static class Startup
 
     internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
-        // TODO: there must be a cleaner way to do IOptions validation...
         var databaseSettings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
         string rootConnectionString = databaseSettings.ConnectionString;
         if (string.IsNullOrEmpty(rootConnectionString))
@@ -31,18 +30,8 @@ internal static class Startup
 
         return services
             .Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)))
-
             .AddDbContext<ApplicationDbContext>(m => m.UseDatabase(dbProvider, rootConnectionString))
-
-            //.AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>();
-            //.AddTransient<ApplicationDbSeeder>()
-            //.AddServices(typeof(ICustomSeeder), ServiceLifetime.Transient)
-            //.AddTransient<CustomSeederRunner>()
-
-            //.AddTransient<IConnectionStringSecurer, ConnectionStringSecurer>()
-            //.AddTransient<IConnectionStringValidator, ConnectionStringValidator>()
-
             //.AddRepositories();
     }
 

@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-using API.Profiles;
-using AspNetCoreRateLimit;
+﻿using AspNetCoreRateLimit;
+using Core.Application.Auth;
 using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
-using Infrastructure.Mapping;
 using Infrastructure.Middleware;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
@@ -14,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure;
 
@@ -22,12 +19,10 @@ namespace Infrastructure;
 public static class Startup{
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        MapsterSettings.Configure();
-
         return services
             .AddApiVersioning()
-            //.AddAutoMapper(typeof(MappingProfiles))
-            .AddAutoMapper(Assembly.GetExecutingAssembly())
+        //.AddAutoMapper(typeof(MappingProfiles))
+            .AddAutoMapper(typeof(AuthMappingProfile).Assembly)
             .AddAuth(config)
             //.AddBackgroundJobs(config)
             //.AddCaching(config)
