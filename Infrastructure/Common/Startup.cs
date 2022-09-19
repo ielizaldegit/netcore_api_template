@@ -14,7 +14,7 @@ internal static class Startup
 
             .AddScoped<IPasswordHasher<User>, PasswordHasher<User>>()
             .AddScoped<IAuthService, AuthService>()
-            .AddScoped<IUnitOfWork, UnitOfWork>()
+            //.AddScoped<IUnitOfWork, UnitOfWork>()
 
 
             .AddServices(typeof(ITransientService), ServiceLifetime.Transient)

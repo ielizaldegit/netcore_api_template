@@ -7,27 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Entities\" />
-    <None Remove="Interfaces\" />
-    <None Remove="Entities\Auth\" />
-    <None Remove="Entities\Persons\" />
-    <None Remove="Entities\Addresses\" />
-    <None Remove="Common\" />
-    <None Remove="Common\Exceptions\" />
-    <None Remove="DTOs\" />
     <None Remove="Application\" />
     <None Remove="Domain\" />
+    <None Remove="Application\Auth\" />
+    <None Remove="Application\Profile\" />
+    <None Remove="Application\Common\" />
+    <None Remove="Domain\Entities\" />
+    <None Remove="Domain\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Entities\Auth\" />
-    <Folder Include="Entities\Persons\" />
-    <Folder Include="Entities\Addresses\" />
-    <Folder Include="Common\" />
-    <Folder Include="Common\Exceptions\" />
-    <Folder Include="DTOs\" />
     <Folder Include="Application\" />
     <Folder Include="Domain\" />
+    <Folder Include="Application\Auth\" />
+    <Folder Include="Application\Profile\" />
+    <Folder Include="Application\Common\" />
+    <Folder Include="Domain\Entities\" />
+    <Folder Include="Domain\Interfaces\" />
   </ItemGroup>
 </Project>
