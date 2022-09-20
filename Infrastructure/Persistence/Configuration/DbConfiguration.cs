@@ -241,9 +241,9 @@ namespace Infrastructure.Persistence.Configuration
             builder.Property(p => p.Name).IsRequired().HasMaxLength(200).HasColumnName("name").HasColumnType("nvarchar").HasColumnOrder(2);
             builder.Property(p => p.LastName).IsRequired().HasMaxLength(200).HasColumnName("lastname").HasColumnType("nvarchar").HasColumnOrder(3);
             builder.Property(p => p.MiddleName).HasMaxLength(200).HasColumnName("middlename").HasColumnType("nvarchar").HasColumnOrder(4);
-            builder.Property(p => p.GenderId).HasColumnName("gender_id").HasColumnType("int").HasColumnOrder(5);
-            builder.Property(p => p.AddressId).HasColumnName("address_id").HasColumnType("int").HasColumnOrder(6);
-            builder.Property(p => p.MaritalStatusId).HasColumnName("marital_status_id").HasColumnType("int").HasColumnOrder(7);
+            builder.Property(p => p.GenderId).IsRequired(false).HasColumnName("gender_id").HasColumnType("int").HasColumnOrder(5);
+            builder.Property(p => p.AddressId).IsRequired(false).HasColumnName("address_id").HasColumnType("int").HasColumnOrder(6);
+            builder.Property(p => p.MaritalStatusId).IsRequired(false).HasColumnName("marital_status_id").HasColumnType("int").HasColumnOrder(7);
             builder.Property(p => p.Birthdate).HasColumnName("birthdate").HasColumnType("datetime2").HasColumnOrder(8);
             builder.Property(p => p.Title).HasMaxLength(200).HasColumnName("title").HasColumnType("nvarchar").HasColumnOrder(9);
             builder.Property(p => p.Email).HasMaxLength(200).HasColumnName("email").HasColumnType("nvarchar").HasColumnOrder(10);

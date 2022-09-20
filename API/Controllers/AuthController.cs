@@ -1,5 +1,5 @@
 ﻿using Core.Aplication.Auth;
-using Core.Interfaces.Services;
+using Core.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;

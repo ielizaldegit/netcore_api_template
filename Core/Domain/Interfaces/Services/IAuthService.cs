@@ -1,12 +1,12 @@
 ﻿using Core.Aplication.Auth;
+using Core.Interfaces;
 
-namespace Core.Interfaces.Services
+namespace Core.Domain.Interfaces.Services;
+
+public interface IAuthService : IScopedService
 {
-    public interface IAuthService : IScopedService
-    {
-        Task<UserDTO> LoginAsync(LoginRequestDTO request);
-        Task<UserDTO> RegisterAsync(RegisterRequestDTO request);
+    Task<UserDTO> LoginAsync(LoginRequestDTO request);
+    Task<UserDTO> RegisterAsync(RegisterRequestDTO request);
 
-    }
 }
 

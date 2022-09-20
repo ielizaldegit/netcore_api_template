@@ -7,9 +7,7 @@ namespace Infrastructure.Persistence.Repositories
 {
     public class GenericRepository<T> : RepositoryBase<T> where T : class
     {
-        public GenericRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
+        public GenericRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
     }
 }

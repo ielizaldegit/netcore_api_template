@@ -1,8 +1,10 @@
-﻿using Infrastructure;
+﻿using API.Helpers;
+using Infrastructure;
 using Infrastructure.Common;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-
+[assembly: ApiConventionType(typeof(SwApiConventions))]
 
 StaticLogger.EnsureInitialized();
 Log.Information("Server Booting Up...");

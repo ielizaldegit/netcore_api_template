@@ -8,9 +8,9 @@ namespace Core.Entities.Persons
         public string Name { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
-        public int GenderId { get; set; }
-        public int AddressId { get; set; }
-        public int MaritalStatusId { get; set; }
+        public int? GenderId { get; set; }
+        public int? AddressId { get; set; }
+        public int? MaritalStatusId { get; set; }
         public DateTime Birthdate { get; set; }
         public string Title { get; set; }
         public string Email { get; set; }

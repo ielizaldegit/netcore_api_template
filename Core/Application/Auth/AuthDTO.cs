@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Core.DTOs;
+using Core.Application.Profile;
 
 namespace Core.Aplication.Auth
 {
@@ -18,15 +17,6 @@ namespace Core.Aplication.Auth
         public string Password { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }
-
-        [JsonIgnore]
-        public int? ModifiedBy { get; set; }
-        [JsonIgnore]
-        public int? CreatedBy { get; set; }
-        [JsonIgnore]
-        public DateTime? CreatedAt { get; set; }
-        [JsonIgnore]
-        public DateTime? ModifiedAt { get; set; }
     }
 
 

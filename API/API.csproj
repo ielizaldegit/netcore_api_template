@@ -30,6 +30,7 @@
     <Folder Include="wwwroot\docs\" />
     <Folder Include="wwwroot\swagger-ui\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Localization\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Migrator.MSSQL\Infrastructure.Migrator.MSSQL.csproj">
@@ -50,5 +51,6 @@
     <None Remove="Serilog.AspNetCore" />
     <None Remove="Microsoft.AspNetCore.Http" />
     <None Remove="Microsoft.AspNetCore.Components.Authorization" />
+    <None Remove="Localization\" />
   </ItemGroup>
 </Project>

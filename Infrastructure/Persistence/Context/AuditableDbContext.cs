@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading;
 using Core.Entities;
 using Core.Interfaces;
@@ -13,10 +14,10 @@ namespace Infrastructure.Persistence.Context
 
         protected readonly ICurrentUser _currentUser;
 
-        public AuditableIdentityContext(DbContextOptions options, ICurrentUser currentUser) : base(options)
-        {
-            _currentUser = currentUser;
-        }
+        public AuditableIdentityContext(DbContextOptions options, ICurrentUser currentUser) : base(options) => _currentUser = currentUser;
+
+
+        public IDbConnection Connection => Database.GetDbConnection();
 
         public DbSet<Audit> AuditLogs { get; set; }
 

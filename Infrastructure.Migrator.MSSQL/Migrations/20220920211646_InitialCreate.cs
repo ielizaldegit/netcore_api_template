@@ -258,9 +258,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     lastname = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     middlename = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    gender_id = table.Column<int>(type: "int", nullable: false),
-                    address_id = table.Column<int>(type: "int", nullable: false),
-                    marital_status_id = table.Column<int>(type: "int", nullable: false),
+                    gender_id = table.Column<int>(type: "int", nullable: true),
+                    address_id = table.Column<int>(type: "int", nullable: true),
+                    marital_status_id = table.Column<int>(type: "int", nullable: true),
                     birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
@@ -283,22 +283,19 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         column: x => x.address_id,
                         principalSchema: "person",
                         principalTable: "address",
-                        principalColumn: "address_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "address_id");
                     table.ForeignKey(
                         name: "FK_person_gender_gender_id",
                         column: x => x.gender_id,
                         principalSchema: "person",
                         principalTable: "gender",
-                        principalColumn: "gender_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "gender_id");
                     table.ForeignKey(
                         name: "FK_person_marital_status_marital_status_id",
                         column: x => x.marital_status_id,
                         principalSchema: "person",
                         principalTable: "marital_status",
-                        principalColumn: "marital_status_id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "marital_status_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -802,9 +799,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 9, 19, 13, 51, 49, 112, DateTimeKind.Local).AddTicks(9960), 1, "mdi mdi-home", "", 1, true, false, null, null, "Home", null, "/", "Inicio", "Inicio" },
-                    { 2, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(10), 1, "mdi mdi-settings", "", 2, true, false, null, null, "Settings", null, "/config", "Configuracion general", "Configuración" },
-                    { 8, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30), 1, "mdi mdi-reports", "", 2, true, false, null, null, "Reports", null, "/reports", "Reportes del sistema", "Reportes" }
+                    { 1, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1590), 1, "mdi mdi-home", "", 1, true, false, null, null, "Home", null, "/", "Inicio", "Inicio" },
+                    { 2, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1650), 1, "mdi mdi-settings", "", 2, true, false, null, null, "Settings", null, "/config", "Configuracion general", "Configuración" },
+                    { 8, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1690), 1, "mdi mdi-reports", "", 2, true, false, null, null, "Reports", null, "/reports", "Reportes del sistema", "Reportes" }
                 });
 
             migrationBuilder.InsertData(
@@ -842,9 +839,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(10), 1, "mdi mdi-user", "", 1, true, false, null, null, "Users", 2, "/config/users", "Administracion de usuarios", "Usuarios" },
-                    { 4, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(20), 1, "mdi mdi-mod", "", 2, true, false, null, null, "Modules", 2, "/config/modules", "Administracion de módulos", "Módulos" },
-                    { 5, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(20), 1, "mdi mdi-cat", "", 3, true, false, null, null, "Catalogues", 2, "/config/cats", "Administracion de catálogos", "Catálogos" }
+                    { 3, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1660), 1, "mdi mdi-user", "", 1, true, false, null, null, "Users", 2, "/config/users", "Administracion de usuarios", "Usuarios" },
+                    { 4, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1670), 1, "mdi mdi-mod", "", 2, true, false, null, null, "Modules", 2, "/config/modules", "Administracion de módulos", "Módulos" },
+                    { 5, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1680), 1, "mdi mdi-cat", "", 3, true, false, null, null, "Catalogues", 2, "/config/cats", "Administracion de catálogos", "Catálogos" }
                 });
 
             migrationBuilder.InsertData(
@@ -884,7 +881,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 schema: "person",
                 table: "person",
                 columns: new[] { "person_id", "address_id", "birthdate", "created_at", "created_by", "curp", "email", "gender_id", "home_phone", "lastname", "marital_status_id", "middlename", "mobile_phone", "modified_at", "modified_by", "name", "office_phone", "photo", "rfc", "title" },
-                values: new object[] { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 9, 19, 13, 51, 49, 115, DateTimeKind.Local).AddTicks(220), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "", "EIHI831111", "Ing" });
+                values: new object[] { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 9, 20, 16, 16, 45, 458, DateTimeKind.Local).AddTicks(1830), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "", "EIHI831111", "Ing" });
 
             migrationBuilder.InsertData(
                 schema: "address",
@@ -938,7 +935,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 schema: "auth",
                 table: "user",
                 columns: new[] { "user_id", "created_at", "created_by", "email", "email_confirmed", "is_active", "modified_at", "modified_by", "name", "password", "role_id" },
-                values: new object[] { 1, new DateTime(2022, 9, 19, 13, 51, 49, 115, DateTimeKind.Local).AddTicks(9040), null, "ielizalde@swplus.com.mx", true, true, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
+                values: new object[] { 1, new DateTime(2022, 9, 20, 16, 16, 45, 459, DateTimeKind.Local).AddTicks(780), null, "ielizalde@swplus.com.mx", true, true, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
 
             migrationBuilder.InsertData(
                 schema: "auth",
@@ -946,8 +943,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 6, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30), 1, "mdi mdi-cat", "", 1, true, false, null, null, "Género", 5, "/config/sex", "Catálogo de géneros", "Generos" },
-                    { 7, new DateTime(2022, 9, 19, 13, 51, 49, 113, DateTimeKind.Local).AddTicks(30), 1, "mdi mdi-cat", "", 2, true, false, null, null, "País", 5, "/config/country", "Catálogo de paises", "Paises" }
+                    { 6, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1680), 1, "mdi mdi-cat", "", 1, true, false, null, null, "Género", 5, "/config/sex", "Catálogo de géneros", "Generos" },
+                    { 7, new DateTime(2022, 9, 20, 16, 16, 45, 456, DateTimeKind.Local).AddTicks(1680), 1, "mdi mdi-cat", "", 2, true, false, null, null, "País", 5, "/config/country", "Catálogo de paises", "Paises" }
                 });
 
             migrationBuilder.InsertData(

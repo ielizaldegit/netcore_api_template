@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using Core.Entities.Auth;
+using Core.Entities.Persons;
 using Core.Interfaces;
 using Core.Interfaces.Repository;
 using Infrastructure.Auth;
@@ -18,7 +19,7 @@ namespace Infrastructure.Persistence.UnitOfWork
         private IAuthRepository _auth;
         private IRepositoryBase<User> _users;
         private IRepositoryBase<Role> _roles;
-
+        private IRepositoryBase<Person> _person;
 
         public UnitOfWork(ApplicationDbContext context, IOptions<JwtSettings> jwtSettings) {
             _context = context;
@@ -38,6 +39,10 @@ namespace Infrastructure.Persistence.UnitOfWork
             get { return _roles = _roles ?? new GenericRepository<Role>(_context); }
         }
 
+        public IRepositoryBase<Person> Person
+        {
+            get { return _person = _person ?? new GenericRepository<Person>(_context); }
+        }
 
         public async Task<int> SaveAsync() {
             return await _context.SaveChangesAsync();
