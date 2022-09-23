@@ -14,12 +14,23 @@ public class ProfileController : VersionNeutralApiController
     public ProfileController(IProfileService profileService) => _profileService = profileService;
 
 
+
     [HttpPost("update_person")]
-    [OpenApiOperation("Actualiza el perfil de usuario", "Descripción: Lorem Ipsum...")]
-    public async Task<ActionResult<PersonDTO>> UpdatePerson(PersonRequestDTO request)
+    [OpenApiOperation("Actualiza el perfil de usuario", "")]
+    public async Task<ActionResult<PersonResponse>> UpdatePerson(UpdatePersonRequest request)
     {
         var result = await _profileService.UpdatePersonAsync(request);
         return Ok(result);
     }
+
+
+    [HttpPost("update_address")]
+    [OpenApiOperation("Actualiza el domicilio de una persona", "")]
+    public async Task<ActionResult<PersonResponse>> UpdateAddress(UpdatePersonRequest request)
+    {
+        var result = await _profileService.UpdatePersonAsync(request);
+        return Ok(result);
+    }
+
 }
 

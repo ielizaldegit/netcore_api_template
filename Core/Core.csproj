@@ -20,6 +20,8 @@
     <None Remove="Domain\Interfaces\Repository\" />
     <None Remove="Domain\Interfaces\Services\" />
     <None Remove="Ardalis.Specification" />
+    <None Remove="FluentValidation.DependencyInjectionExtensions" />
+    <None Remove="Application\Common\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
@@ -31,9 +33,11 @@
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Domain\Interfaces\Repository\" />
     <Folder Include="Domain\Interfaces\Services\" />
+    <Folder Include="Application\Common\Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Ardalis.Specification" Version="6.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
   </ItemGroup>
 </Project>

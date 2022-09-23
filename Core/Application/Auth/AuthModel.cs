@@ -4,16 +4,13 @@ using Core.Application.Profile;
 namespace Core.Aplication.Auth
 {
     public class LoginRequestDTO {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre del usuario es requerido")]
         public string Name { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "La contraseña del usuario es requerida")]
         public string Password { get; set; }
     }
 
-    public class RegisterRequestDTO {
-        [Required(ErrorMessage = "El nombre del usuario es requerido")]
+    public class RegisterRequestDTO
+    {
         public string Name { get; set; }
-        [Required(ErrorMessage = "La contraseña del usuario es requerida")]
         public string Password { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }
@@ -30,7 +27,7 @@ namespace Core.Aplication.Auth
         public bool EmailConfirmed { get; set; }
         public bool IsActive { get; set; }
 
-        public IEnumerable<PersonDTO> Persons { get; set; }
+        public IEnumerable<PersonResponse> Persons { get; set; }
         public IEnumerable<ModuleDTO> Modules { get; set; }
     }
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "auth.failed": "Autenticación fallida",
   "tenant.invalid": "Inquilino no válido.",
   "tenant.expired": "La validez del inquilino ha expirado. Comuníquese con el administrador de la aplicación.",

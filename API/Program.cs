@@ -1,4 +1,6 @@
 ﻿using API.Helpers;
+using Core;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,13 @@ try {
     });
 
     builder.Services
-        .AddControllers(options => { options.RespectBrowserAcceptHeader = true;})
-        .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null;})
+        .AddControllers(options => { options.RespectBrowserAcceptHeader = true; })
+        .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null; })
         .AddXmlDataContractSerializerFormatters();
 
+    builder.Services.AddFluentValidationAutoValidation();
     builder.Services.AddInfrastructure(builder.Configuration);
-
+    builder.Services.AddApplication();
 
     var app = builder.Build();
     await app.Services.InitializeDatabasesAsync();

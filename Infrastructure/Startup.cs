@@ -3,6 +3,7 @@ using Core.Application.Auth;
 using Infrastructure.Auth;
 using Infrastructure.Common;
 using Infrastructure.Cors;
+using Infrastructure.Localization;
 using Infrastructure.Middleware;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
@@ -21,8 +22,7 @@ public static class Startup{
     {
         return services
             .AddApiVersioning()
-        //.AddAutoMapper(typeof(MappingProfiles))
-            .AddAutoMapper(typeof(AuthMappingProfile).Assembly)
+            .AddAutoMapper(typeof(AuthMapping).Assembly)
             .AddAuth(config)
             //.AddBackgroundJobs(config)
             //.AddCaching(config)
@@ -30,7 +30,7 @@ public static class Startup{
             .AddCorsPolicy(config)
             .AddExceptionMiddleware()
             //.AddHealthCheck()
-            //.AddLocalization(config)
+            .AddLocalization(config)
             //.AddMailing(config)
             //.AddMediatR(Assembly.GetExecutingAssembly())
             //.AddMultitenancy(config)
@@ -38,7 +38,7 @@ public static class Startup{
             .AddOpenApiDocumentation(config)
             .AddPersistence(config)
             //.AddRequestLogging(config)
-            //.AddRouting(options => options.LowercaseUrls = true)
+            .AddRouting(options => options.LowercaseUrls = true)
             
             .AddServices();
     }
@@ -72,7 +72,7 @@ public static class Startup{
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
         builder
-            //.UseLocalization(config)
+            .UseLocalization(config)
             .UseIpRateLimiting()
             .UseHttpsRedirection()
             .UseStaticFiles()
@@ -80,7 +80,7 @@ public static class Startup{
             //.UseFileStorage()
             .UseExceptionMiddleware()
             
-            //.UseRouting()
+            .UseRouting()
             .UseCorsPolicy()
             .UseAuthentication()
         

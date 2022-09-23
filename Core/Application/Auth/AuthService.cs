@@ -4,6 +4,7 @@ using Core.Application.Profile;
 using Core.Common.Exceptions;
 using Core.Domain.Interfaces.Services;
 using Core.Entities.Auth;
+using Core.Entities.Persons;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -52,7 +53,10 @@ namespace Core.Aplication.Auth
         {
             User usuario = _mapper.Map<User>(request);
             usuario.Password = _passwordHasher.HashPassword(usuario, request.Password);
+
+            //TODO Validar si el usuario se activa mediante confirmación de correo electrónico o no
             usuario.IsActive = true;
+
 
             var existe = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Name));
 
@@ -67,6 +71,15 @@ namespace Core.Aplication.Auth
                             usuario.ModuleUsers.Add(new ModuleUser() { ModuleId = mr.ModuleId, PermissionId = mr.PermissionId, Module = mr.Module });
                         }
                     }
+
+                    usuario.PersonUsers = new List<PersonUser> {
+                        new PersonUser() {
+                                Person = new Person() {
+                                    Name = "", LastName = "", Address = new Address(){}
+                                }       
+                        } 
+                    };
+
                     await _unitOfWork.Users.AddAsync(usuario);
                     await _unitOfWork.SaveAsync();
 
@@ -139,13 +152,13 @@ namespace Core.Aplication.Auth
             }
 
         }
-        private List<PersonDTO> ProcessPersons(User usuario)
+        private List<PersonResponse> ProcessPersons(User usuario)
         {
             try {
-                List<PersonDTO> _persons = new List<PersonDTO>();
+                List<PersonResponse> _persons = new List<PersonResponse>();
 
                 foreach (var p in usuario.PersonUsers) {
-                    PersonDTO dto = _mapper.Map<PersonDTO>(p.Person);
+                    PersonResponse dto = _mapper.Map<PersonResponse>(p.Person);
                     _persons.Add(dto);
                 }
                 return _persons;

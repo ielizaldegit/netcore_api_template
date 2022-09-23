@@ -38,6 +38,7 @@
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
     <None Remove="Ardalis.Specification.EntityFrameworkCore" />
     <None Remove="Dapper" />
+    <None Remove="Localization\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
@@ -71,5 +72,6 @@
     <Folder Include="Persistence\Seed\" />
     <Folder Include="Persistence\Context\" />
     <Folder Include="RateLimit\" />
+    <Folder Include="Localization\" />
   </ItemGroup>
 </Project>

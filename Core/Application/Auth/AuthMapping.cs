@@ -1,13 +1,11 @@
 ﻿using Core.Aplication.Auth;
-using Core.Application.Profile;
 using Core.Entities.Auth;
-using Core.Entities.Persons;
 
 namespace Core.Application.Auth;
 
-public class AuthMappingProfile : AutoMapper.Profile
+public class AuthMapping : AutoMapper.Profile
 {
-    public AuthMappingProfile()
+    public AuthMapping()
     {
         CreateMap<User, UserDTO>()
             .ForMember(dest => dest.Role, origen => origen.MapFrom(origen => origen.Role.Name))

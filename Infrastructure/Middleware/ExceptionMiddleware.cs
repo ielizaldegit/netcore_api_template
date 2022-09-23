@@ -2,6 +2,7 @@
 using Core.Common.Exceptions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using Serilog;
 using Serilog.Context;
 
@@ -10,16 +11,12 @@ namespace Infrastructure.Middleware;
 internal class ExceptionMiddleware : IMiddleware
 {
     private readonly ICurrentUser _currentUser;
-    //private readonly IStringLocalizer<ExceptionMiddleware> _localizer;
+    private readonly IStringLocalizer<ExceptionMiddleware> _localizer;
     private readonly ISerializerService _jsonSerializer;
 
-    public ExceptionMiddleware(
-        ICurrentUser currentUser,
-        //IStringLocalizer<ExceptionMiddleware> localizer,
-        ISerializerService jsonSerializer)
-    {
+    public ExceptionMiddleware(ICurrentUser currentUser, IStringLocalizer<ExceptionMiddleware> localizer, ISerializerService jsonSerializer) {
         _currentUser = currentUser;
-        //_localizer = localizer;
+        _localizer = localizer;
         _jsonSerializer = jsonSerializer;
     }
 
@@ -42,6 +39,20 @@ internal class ExceptionMiddleware : IMiddleware
                 await context.Response.WriteAsync(_jsonSerializer.Serialize(errorResult));
             }
 
+            if (context.Response.StatusCode == (int)HttpStatusCode.NotFound && context.Response.HasStarted == false)
+            {
+                var errorResult = new ErrorResult
+                {
+                    Exception = $"No se pudo encontrar el metodo con el path:  '{context.Request.Path}'.",
+                    StatusCode = 404
+                };
+                errorResult.Errors = null;
+                context.Response.StatusCode = 405;
+                context.Response.ContentType = "application/json; charset=utf-8";
+                await context.Response.WriteAsync(_jsonSerializer.Serialize(errorResult));
+            }
+
+
 
         }
         catch (Exception exception)
@@ -60,9 +71,10 @@ internal class ExceptionMiddleware : IMiddleware
                 Source = exception.TargetSite?.DeclaringType?.FullName,
                 Exception = exception.Message.Trim(),
                 ErrorId = errorId,
-                SupportMessage = "Provide the ErrorId to the support team for further analysis."
+                SupportMessage = _localizer["exceptionmiddleware.supportmessage"] //"Provide the ErrorId to the support team for further analysis."
             };
-            errorResult.Errors!.Add(exception.Message);
+            errorResult.Errors = null;
+            //errorResult.Errors!.Add(exception.Message);
             var response = context.Response;
             response.ContentType = "application/json";
 

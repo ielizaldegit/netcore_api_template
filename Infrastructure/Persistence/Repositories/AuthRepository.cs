@@ -44,6 +44,7 @@ namespace Infrastructure.Persistence.Repositories
             {
                     new(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new(ClaimTypes.Email, user.Email),
+                    new(ClaimTypes.Role, user.Role.Name),
             };
 
     }
