@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Core.Domain.Entities.Mail;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
 using Core.Interfaces;
@@ -20,6 +21,10 @@ namespace Infrastructure.Persistence.UnitOfWork
         private IRepositoryBase<User> _users;
         private IRepositoryBase<Role> _roles;
         private IRepositoryBase<Person> _person;
+
+        private IRepositoryBase<Template> _mailTemplates;
+        private IRepositoryBase<Activation> _mailActivations;
+
 
         public UnitOfWork(ApplicationDbContext context, IOptions<JwtSettings> jwtSettings) {
             _context = context;
@@ -43,6 +48,16 @@ namespace Infrastructure.Persistence.UnitOfWork
         {
             get { return _person = _person ?? new GenericRepository<Person>(_context); }
         }
+
+        public IRepositoryBase<Template> MailTemplates
+        {
+            get { return _mailTemplates = _mailTemplates ?? new GenericRepository<Template>(_context); }
+        }
+        public IRepositoryBase<Activation> MailActivations
+        {
+            get { return _mailActivations = _mailActivations ?? new GenericRepository<Activation>(_context); }
+        }
+
 
         public async Task<int> SaveAsync() {
             return await _context.SaveChangesAsync();

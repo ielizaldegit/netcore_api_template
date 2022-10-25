@@ -1,4 +1,5 @@
-﻿using Core.Entities.Addresses;
+﻿
+using Core.Domain.Entities.Mail;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
 using Core.Interfaces;
@@ -22,10 +23,9 @@ namespace Infrastructure.Persistence.Context
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Person> Persons { get; set; }
 
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<State> States { get; set; }
-        public DbSet<Municipality> Municipalities { get; set; }
-        public DbSet<PostalCode> PostalCodes { get; set; }
+        public DbSet<Template> MailTemplates { get; set; }
+        public DbSet<Activation> MailActivations { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {}

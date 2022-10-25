@@ -28,7 +28,7 @@ try {
 
     builder.Services.AddFluentValidationAutoValidation();
     builder.Services.AddInfrastructure(builder.Configuration);
-    builder.Services.AddApplication();
+    builder.Services.AddApplication(builder.Configuration);
 
     var app = builder.Build();
     await app.Services.InitializeDatabasesAsync();

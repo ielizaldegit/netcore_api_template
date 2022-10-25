@@ -22,6 +22,9 @@
     <None Remove="Ardalis.Specification" />
     <None Remove="FluentValidation.DependencyInjectionExtensions" />
     <None Remove="Application\Common\Models\" />
+    <None Remove="Application\Common\ExternalServices\" />
+    <None Remove="Domain\Entities\Mail\" />
+    <None Remove="Application\Common\Especifications\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
@@ -34,6 +37,9 @@
     <Folder Include="Domain\Interfaces\Repository\" />
     <Folder Include="Domain\Interfaces\Services\" />
     <Folder Include="Application\Common\Models\" />
+    <Folder Include="Application\Common\ExternalServices\" />
+    <Folder Include="Domain\Entities\Mail\" />
+    <Folder Include="Application\Common\Especifications\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />

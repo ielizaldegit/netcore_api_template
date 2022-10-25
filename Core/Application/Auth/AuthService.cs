@@ -1,29 +1,41 @@
 ﻿using AutoMapper;
 using Core.Application.Auth;
+using Core.Application.Common.Especifications;
+using Core.Application.Common.Models;
 using Core.Application.Profile;
 using Core.Common.Exceptions;
+using Core.Domain.Entities.Mail;
 using Core.Domain.Interfaces.Services;
 using Core.Entities.Auth;
 using Core.Entities.Persons;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 
 namespace Core.Aplication.Auth
 {
     public class AuthService : IAuthService
     {
+        private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthService> _logger;
+        private readonly INotificationService _notification;
+        private readonly ISerializerService _jsonSerializer;
 
-        public AuthService(IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher, IMapper mapper, ILogger<AuthService> logger)
+        public AuthService( IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher, IMapper mapper, ILogger<AuthService> logger,
+                            INotificationService notification, ISerializerService jsonSerializer, IConfiguration configuration)
         {
+            _configuration = configuration;
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
             _logger = logger;
+            _notification = notification;
+            _jsonSerializer = jsonSerializer;
         }
 
         public async Task<UserDTO> LoginAsync(LoginRequestDTO request)
@@ -33,6 +45,9 @@ namespace Core.Aplication.Auth
 
             if (usuario == null) {
                 throw new UnauthorizedException($"Credenciales incorrectas para el usuario {request.Name}.");
+            }
+            if (!usuario.IsActive) {
+                throw new UnauthorizedException($"La cuenta del usuario {request.Name} no se encuentra activa. Revisa tu bandeja de correo electrónico.");
             }
 
             var CheckPassword = _passwordHasher.VerifyHashedPassword(usuario, usuario.Password, request.Password);
@@ -54,13 +69,11 @@ namespace Core.Aplication.Auth
             User usuario = _mapper.Map<User>(request);
             usuario.Password = _passwordHasher.HashPassword(usuario, request.Password);
 
-            //TODO Validar si el usuario se activa mediante confirmación de correo electrónico o no
-            usuario.IsActive = true;
-
 
             var existe = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Name));
 
             if (existe == null) {
+
                 try {
                     var role = await _unitOfWork.Roles.FirstOrDefaultAsync(new RolebyId(request.RoleId));
                     if (role != null)
@@ -80,11 +93,33 @@ namespace Core.Aplication.Auth
                         } 
                     };
 
+
+                    var RequireConfirmedAccount = _configuration.GetValue<bool>("SecuritySettings:RequireConfirmedAccount");
+
+                    usuario.IsActive = RequireConfirmedAccount ? false : true ;
+
                     await _unitOfWork.Users.AddAsync(usuario);
                     await _unitOfWork.SaveAsync();
-
                     UserDTO dto = _mapper.Map<UserDTO>(usuario);
-                    dto.Token = _unitOfWork.Auth.GenerateJwt(usuario);
+
+
+
+                    
+
+                    if (RequireConfirmedAccount)
+                    {
+                        //Devuelve el template de activación de cuenta
+                        var template = await _unitOfWork.MailTemplates.FirstOrDefaultAsync(new TemplateById(1));
+                        var activateUrl = _configuration.GetValue<string>("SecuritySettings:ActivationLinkUrl");
+
+                        var activationId = await SaveMailActivation(usuario.UserId);
+                        var data = new { Name = request.Name, ActivateUrl= activateUrl + activationId };
+                        await SendConfirmationEmail(request.Email, request.Name, _jsonSerializer.Serialize(data), template);
+
+                    }
+                    else dto.Token = _unitOfWork.Auth.GenerateJwt(usuario);
+
+
                     dto.Modules = ProcessModules(usuario);
 
                     return dto;
@@ -168,6 +203,32 @@ namespace Core.Aplication.Auth
                 return null;
             }
         }
+        private async Task SendConfirmationEmail(string Email, string Name, string Data, Template template)
+        {
+            var mailRequest = new EmailRequest();
+            mailRequest.To = new List<RecipientCustom> { new RecipientCustom() { Email = Email, Name = Name, Data = Data}};
+            mailRequest.Subject = template.Name;
+            mailRequest.HTMLTemplate = template.Url;
+            mailRequest.IsUrlTemplate = template.IsHtml;
+            mailRequest.IsCustomized = template.IsCustom;
+
+            var mailResponse = await _notification.SendMail(mailRequest);
+        }
+        private async Task<string> SaveMailActivation(int UserId)
+        {
+            int expirationHours = _configuration.GetValue<int>("SecuritySettings:ActivationLinkExpiration");
+            Activation activation = new Activation()
+            {
+                IsActive = true,
+                UserId = UserId,
+                Expiration = DateTime.Now.AddHours(expirationHours)
+            };
+
+            await _unitOfWork.MailActivations.AddAsync(activation);
+
+            return activation.ActivationId.ToString();
+        }
+
 
     }
 }
