@@ -14,6 +14,8 @@ namespace Core
 
             services.AddSingleton<INotificationService, NotificationService>();
             services.AddHttpClient("NotificationApi", c => c.BaseAddress = new Uri(config.GetValue<string>("ExternalServices:Notification:BaseAddress") ));
+            services.AddSingleton<IStorageService, StorageService>();
+            services.AddHttpClient("StorageApi", c => c.BaseAddress = new Uri(config.GetValue<string>("ExternalServices:Storage:BaseAddress")));
 
 
 

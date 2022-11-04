@@ -15,7 +15,7 @@ public interface IDocumentsService
 
 public interface IStorageService
 {
-
+    Task<BlobResponse> UploadBlob(CreateBlobRequest request);
 }
 
 public interface ILookupService

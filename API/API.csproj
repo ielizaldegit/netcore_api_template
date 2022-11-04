@@ -32,6 +32,7 @@
     <Folder Include="wwwroot\swagger-ui\" />
     <Folder Include="Helpers\" />
     <Folder Include="Localization\" />
+    <Folder Include="Controllers\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Migrator.MSSQL\Infrastructure.Migrator.MSSQL.csproj">
@@ -54,5 +55,6 @@
     <None Remove="Microsoft.AspNetCore.Components.Authorization" />
     <None Remove="Localization\" />
     <None Remove="FluentValidation.AspNetCore" />
+    <None Remove="Controllers\Admin\" />
   </ItemGroup>
 </Project>

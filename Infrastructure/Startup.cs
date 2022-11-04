@@ -21,7 +21,7 @@ public static class Startup{
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
-            .AddApiVersioning()
+            //.AddApiVersioning()
             .AddAutoMapper(typeof(AuthMapping).Assembly)
             .AddAuth(config)
             //.AddBackgroundJobs(config)

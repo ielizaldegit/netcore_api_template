@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Application.Admin;
 using Core.Application.Profile;
 
-namespace Core.Aplication.Auth
+namespace Core.Application.Auth
 {
-    public class LoginRequestDTO {
+    public class LoginRequest {
         public string Name { get; set; }
         public string Password { get; set; }
     }
 
-    public class RegisterRequestDTO
+    public class RegisterRequest
     {
         public string Name { get; set; }
         public string Password { get; set; }
@@ -16,8 +16,14 @@ namespace Core.Aplication.Auth
         public int RoleId { get; set; }
     }
 
+    public class NewPasswordRequest
+    {
+        public string NewPassword { get; set; }
+        public string ActivationId { get; set; }
+    }
 
-    public class UserDTO {
+
+    public class LoginResponse {
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -27,50 +33,11 @@ namespace Core.Aplication.Auth
         public bool EmailConfirmed { get; set; }
         public bool IsActive { get; set; }
 
-        public IEnumerable<PersonResponse> Persons { get; set; }
-        public IEnumerable<ModuleDTO> Modules { get; set; }
+        public PersonResponse Profile { get; set; }
+        public IEnumerable<ModuleResponse> Modules { get; set; }
     }
 
 
-    public class ModuleDTO {
-        public int ModuleId { get; set; }
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public string Subtitle { get; set; }
-        public string Description { get; set; }
-        public string Route { get; set; }
-        public string CssClass { get; set; }
-        public int? DisplayOrder { get; set; }
-        public bool? IsVisible { get; set; }
-        public bool? IsActive { get; set; }
-        public int? ParentId { get; set; }
-
-        public ICollection<ModuleDTO> Children { get; set; }
-        public ICollection<PermissionDTO> Permissions { get; set; }
-    }
-
-
-
-    public class PermissionDTO {
-        public int PermissionId { get; set; }
-        public string Name { get; set; }
-        public string DisplayText { get; set; }
-        public string CssClass { get; set; }
-        public string Description { get; set; }
-        public bool? Grouping { get; set; }
-        public int? DisplayOrder { get; set; }
-        public bool? IsVisible { get; set; }
-        public bool? IsActive { get; set; }
-        public int? ParentId { get; set; }
-
-    }
-
-    public class RoleDTO {
-        public int RoleId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public bool IsActive { get; set; }
-    }
 
 
 

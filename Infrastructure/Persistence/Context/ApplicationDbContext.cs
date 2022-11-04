@@ -14,6 +14,7 @@ namespace Infrastructure.Persistence.Context
 
         public DbSet<Gender> Gender { get; set; }
         public DbSet<MaritalStatus> MaritalStatus { get; set; }
+        public DbSet<Relationship> Relationship { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }

@@ -24,7 +24,6 @@ namespace Core.Entities.Persons
 
         public Gender Gender { get; set; }
         public MaritalStatus MaritalStatus { get; set; }
-
         public ICollection<PersonUser> PersonUsers { get; set; }
     }
 
@@ -32,7 +31,10 @@ namespace Core.Entities.Persons
     {
         public int PersonId { get; set; }
         public int UserId { get; set; }
+        public int? RelationshipId { get; set; }
+        public bool? Principal { get; set; }
 
+        public Relationship Relationship { get; set; }
         public Person Person { get; set; }
         public User User { get; set; }
 

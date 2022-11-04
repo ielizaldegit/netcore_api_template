@@ -9,5 +9,11 @@
         public ICollection<Person> Persons { get; set; }
     }
 
+    public class Relationship : CatalogBase
+    {
+        public ICollection<PersonUser> PersonUsers { get; set; }
+    }
+
+
 }
 

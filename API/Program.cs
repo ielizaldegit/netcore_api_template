@@ -1,4 +1,5 @@
-﻿using API.Helpers;
+﻿using System.Text.Json.Serialization;
+using API.Helpers;
 using Core;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -23,7 +24,10 @@ try {
 
     builder.Services
         .AddControllers(options => { options.RespectBrowserAcceptHeader = true; })
-        .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = null; })
+        .AddJsonOptions(options => {
+            options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        })
         .AddXmlDataContractSerializerFormatters();
 
     builder.Services.AddFluentValidationAutoValidation();

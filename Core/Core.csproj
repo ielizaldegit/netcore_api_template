@@ -25,6 +25,7 @@
     <None Remove="Application\Common\ExternalServices\" />
     <None Remove="Domain\Entities\Mail\" />
     <None Remove="Application\Common\Especifications\" />
+    <None Remove="Application\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
@@ -40,6 +41,7 @@
     <Folder Include="Application\Common\ExternalServices\" />
     <Folder Include="Domain\Entities\Mail\" />
     <Folder Include="Application\Common\Especifications\" />
+    <Folder Include="Application\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />

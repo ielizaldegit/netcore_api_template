@@ -11,6 +11,7 @@ public class User: AuditBaseEntity
     public string Email { get; set; }
     public int RoleId { get; set; }
     public bool EmailConfirmed { get; set; }
+    public bool IsTemporaryPassword { get; set; }
     public bool IsActive { get; set; }
     public Role Role { get; set; }
 
@@ -20,10 +21,5 @@ public class User: AuditBaseEntity
     public ICollection<Activation> Activations { get; set; }
 
 }
-
-
-
-
-
 
 

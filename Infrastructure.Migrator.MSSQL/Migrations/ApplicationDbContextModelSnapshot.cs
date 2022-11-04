@@ -105,6 +105,24 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             IsHtml = true,
                             Name = "Activa tu cuenta",
                             Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html"
+                        },
+                        new
+                        {
+                            TemplateId = 2,
+                            Content = "",
+                            IsCustom = true,
+                            IsHtml = true,
+                            Name = "¿Olvidaste tu contraseña?",
+                            Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html"
+                        },
+                        new
+                        {
+                            TemplateId = 3,
+                            Content = "",
+                            IsCustom = true,
+                            IsHtml = true,
+                            Name = "Bienvenido",
+                            Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html"
                         });
                 });
 
@@ -278,7 +296,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 1,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(830),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4040),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-home",
                             Description = "",
@@ -293,7 +311,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 2,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(880),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-settings",
                             Description = "",
@@ -308,7 +326,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 3,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(890),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-user",
                             Description = "",
@@ -324,7 +342,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 4,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(910),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-mod",
                             Description = "",
@@ -340,7 +358,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 5,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(910),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -356,7 +374,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 6,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -372,7 +390,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 7,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-cat",
                             Description = "",
@@ -388,7 +406,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 8,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4090),
                             CreatedBy = 1,
                             CssClass = "mdi mdi-reports",
                             Description = "",
@@ -1057,12 +1075,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("created_at")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(10);
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int")
                         .HasColumnName("created_by")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -1081,15 +1099,20 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .HasColumnName("is_active")
                         .HasColumnOrder(7);
 
+                    b.Property<bool>("IsTemporaryPassword")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_temporary_password")
+                        .HasColumnOrder(8);
+
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("modified_at")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(12);
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnName("modified_by")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1120,10 +1143,11 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 258, DateTimeKind.Local).AddTicks(8030),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(8950),
                             Email = "ielizalde@swplus.com.mx",
                             EmailConfirmed = true,
                             IsActive = true,
+                            IsTemporaryPassword = false,
                             Name = "ielizalde@swplus.com.mx",
                             Password = "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==",
                             RoleId = 1
@@ -1244,6 +1268,23 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             AddressId = 1,
+                            City = "CDMX",
+                            Country = "México",
+                            ExteriorNumber = "1400",
+                            InteriorNumber = "202",
+                            Latitude = 0.0,
+                            Longitude = 0.0,
+                            Municipality = "Benito Juárez",
+                            PostalCode = "03303",
+                            Reference = "Junto al LuckySushi",
+                            Settlement = "Portales Norte",
+                            State = "CDMX",
+                            Street = "Dr. Jose Maria Vertiz",
+                            Type = "Domicilio particular"
+                        },
+                        new
+                        {
+                            AddressId = 2,
                             City = "CDMX",
                             Country = "México",
                             ExteriorNumber = "1400",
@@ -1532,7 +1573,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             PersonId = 1,
                             AddressId = 1,
                             Birthdate = new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2022, 10, 25, 17, 48, 58, 258, DateTimeKind.Local).AddTicks(1270),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(160),
                             Curp = "",
                             Email = "ielizalde@swplus.com.mx",
                             GenderId = 1,
@@ -1543,9 +1584,29 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             MobilePhone = "5514735111",
                             Name = "Ivan",
                             OfficePhone = "",
-                            Photo = "",
+                            Photo = "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png",
                             Rfc = "EIHI831111",
                             Title = "Ing"
+                        },
+                        new
+                        {
+                            PersonId = 2,
+                            AddressId = 2,
+                            Birthdate = new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(170),
+                            Curp = "",
+                            Email = "ielizaldejr@swplus.com.mx",
+                            GenderId = 1,
+                            HomePhone = "",
+                            LastName = "Elizalde",
+                            MaritalStatusId = 1,
+                            MiddleName = "",
+                            MobilePhone = "5514735111",
+                            Name = "Ivan Jr",
+                            OfficePhone = "",
+                            Photo = "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png",
+                            Rfc = "EIHI831111",
+                            Title = ""
                         });
                 });
 
@@ -1561,7 +1622,19 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .HasColumnName("user_id")
                         .HasColumnOrder(2);
 
+                    b.Property<bool?>("Principal")
+                        .HasColumnType("bit")
+                        .HasColumnName("principal")
+                        .HasColumnOrder(4);
+
+                    b.Property<int?>("RelationshipId")
+                        .HasColumnType("int")
+                        .HasColumnName("relationship_id")
+                        .HasColumnOrder(3);
+
                     b.HasKey("PersonId", "UserId");
+
+                    b.HasIndex("RelationshipId");
 
                     b.HasIndex("UserId");
 
@@ -1571,7 +1644,104 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PersonId = 1,
-                            UserId = 1
+                            UserId = 1,
+                            Principal = true
+                        },
+                        new
+                        {
+                            PersonId = 2,
+                            UserId = 1,
+                            Principal = false,
+                            RelationshipId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Core.Entities.Persons.Relationship", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("relationship_id")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("code")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("description")
+                        .HasColumnOrder(3);
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("name")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("relationship", "person");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "H",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Hijo"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "E",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Esposo(a)"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "P",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Padre"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "M",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Madre"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "M",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Abuelo(a)"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "M",
+                            Description = "",
+                            IsActive = true,
+                            Name = "Tutor"
                         });
                 });
 
@@ -1717,6 +1887,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.Persons.Relationship", "Relationship")
+                        .WithMany("PersonUsers")
+                        .HasForeignKey("RelationshipId");
+
                     b.HasOne("Core.Entities.Auth.User", "User")
                         .WithMany("PersonUsers")
                         .HasForeignKey("UserId")
@@ -1724,6 +1898,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+
+                    b.Navigation("Relationship");
 
                     b.Navigation("User");
                 });
@@ -1782,6 +1958,11 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 });
 
             modelBuilder.Entity("Core.Entities.Persons.Person", b =>
+                {
+                    b.Navigation("PersonUsers");
+                });
+
+            modelBuilder.Entity("Core.Entities.Persons.Relationship", b =>
                 {
                     b.Navigation("PersonUsers");
                 });

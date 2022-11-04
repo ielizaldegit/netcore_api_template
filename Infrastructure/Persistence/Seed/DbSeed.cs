@@ -44,7 +44,7 @@ namespace Infrastructure.Persistence.Seed
             //Password: tokey
             return new List<User>()
                     {
-                        new User{UserId=1, Name="ielizalde@swplus.com.mx", Password="AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", Email="ielizalde@swplus.com.mx", RoleId=1, EmailConfirmed=  true, IsActive=true, CreatedAt = DateTime.Now },
+                        new User{UserId=1, Name="ielizalde@swplus.com.mx", Password="AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", Email="ielizalde@swplus.com.mx", RoleId=1, EmailConfirmed=  true, IsActive=true, IsTemporaryPassword =false, CreatedAt = DateTime.Now },
                     };
         }
         public static List<Module> SeedModules()
@@ -174,30 +174,47 @@ namespace Infrastructure.Persistence.Seed
                         new MaritalStatus{Id=4, Name="Divorciado", Code="D", Description= "", IsActive=true },
                     };
         }
+        public static List<Relationship> SeedRelationship()
+        {
+
+            return new List<Relationship>()
+                    {
+                        new Relationship{Id=1, Name="Hijo", Code="H", Description= "", IsActive=true },
+                        new Relationship{Id=2, Name="Esposo(a)", Code="E",  Description= "", IsActive=true },
+                        new Relationship{Id=3, Name="Padre", Code="P", Description= "", IsActive=true },
+                        new Relationship{Id=4, Name="Madre", Code="M", Description= "", IsActive=true },
+                        new Relationship{Id=5, Name="Abuelo(a)", Code="M", Description= "", IsActive=true },
+                        new Relationship{Id=6, Name="Tutor", Code="M", Description= "", IsActive=true }
+                    };
+        }
 
         public static List<Address> SeedAddresses()
         {
 
             return new List<Address>()
-                    {
-                        new Address{ AddressId=1, Type="Domicilio particular", Country="México", State="CDMX", Municipality="Benito Juárez", City="CDMX", Settlement="Portales Norte", Street="Dr. Jose Maria Vertiz", InteriorNumber="202", ExteriorNumber="1400", Reference="Junto al LuckySushi", PostalCode="03303" }
-                    };
+            {
+                new Address{ AddressId=1, Type="Domicilio particular", Country="México", State="CDMX", Municipality="Benito Juárez", City="CDMX", Settlement="Portales Norte", Street="Dr. Jose Maria Vertiz", InteriorNumber="202", ExteriorNumber="1400", Reference="Junto al LuckySushi", PostalCode="03303" },
+                new Address{ AddressId=2, Type="Domicilio particular", Country="México", State="CDMX", Municipality="Benito Juárez", City="CDMX", Settlement="Portales Norte", Street="Dr. Jose Maria Vertiz", InteriorNumber="202", ExteriorNumber="1400", Reference="Junto al LuckySushi", PostalCode="03303" }
+
+            };
         }
 
 
         public static List<Person> SeedPersons()
         {
             return new List<Person>()
-                    {
-                        new Person{PersonId=1, Name="Ivan",LastName="Elizalde", MiddleName="Hernandez", GenderId=1, AddressId=1, MaritalStatusId=1, Birthdate= new DateTime(1983,11,11), Title="Ing",  Email="ielizalde@swplus.com.mx", HomePhone="", MobilePhone="5514735111", OfficePhone="", Rfc="EIHI831111", Curp="", Photo="",  CreatedAt = DateTime.Now },
-                    };
+            {
+                new Person{PersonId=1, Name="Ivan",LastName="Elizalde", MiddleName="Hernandez", GenderId=1, AddressId=1, MaritalStatusId=1, Birthdate= new DateTime(1983,11,11), Title="Ing",  Email="ielizalde@swplus.com.mx", HomePhone="", MobilePhone="5514735111", OfficePhone="", Rfc="EIHI831111", Curp="", Photo="https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png",  CreatedAt = DateTime.Now },
+                new Person{PersonId=2, Name="Ivan Jr",LastName="Elizalde", MiddleName="", GenderId=1, AddressId=2, MaritalStatusId=1, Birthdate= new DateTime(2020,11,11), Title="",  Email="ielizaldejr@swplus.com.mx", HomePhone="", MobilePhone="5514735111", OfficePhone="", Rfc="EIHI831111", Curp="", Photo="https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png",  CreatedAt = DateTime.Now },
+            };
         }
         public static List<PersonUser> SeedPersonUsers()
         {
             return new List<PersonUser>()
-                    {
-                        new PersonUser{PersonId=1, UserId=1 },
-                    };
+            {
+                new PersonUser{PersonId=1, UserId=1, Principal = true },
+                new PersonUser{PersonId=2, UserId=1, Principal = false, RelationshipId = 1 }
+            };
         }
 
 
@@ -210,7 +227,10 @@ namespace Infrastructure.Persistence.Seed
 
             return new List<Template>()
                 {
-                    new Template{TemplateId=1, Name="Activa tu cuenta", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html", Content= "", IsHtml=true, IsCustom=true }
+                    new Template{TemplateId=1, Name="Activa tu cuenta", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html", Content= "", IsHtml=true, IsCustom=true },
+                    new Template{TemplateId=2, Name="¿Olvidaste tu contraseña?", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html", Content= "", IsHtml=true, IsCustom=true },
+                    new Template{TemplateId=3, Name="Bienvenido", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html", Content= "", IsHtml=true, IsCustom=true }
+
                 };
         }
         #endregion

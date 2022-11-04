@@ -170,6 +170,23 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "relationship",
+                schema: "person",
+                columns: table => new
+                {
+                    relationship_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    code = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_relationship", x => x.relationship_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "role",
                 schema: "auth",
                 columns: table => new
@@ -328,6 +345,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     role_id = table.Column<int>(type: "int", nullable: false),
                     email_confirmed = table.Column<bool>(type: "bit", nullable: false),
                     is_active = table.Column<bool>(type: "bit", nullable: false),
+                    is_temporary_password = table.Column<bool>(type: "bit", nullable: false),
                     created_by = table.Column<int>(type: "int", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime2", nullable: true),
                     modified_by = table.Column<int>(type: "int", nullable: true),
@@ -408,7 +426,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: table => new
                 {
                     person_id = table.Column<int>(type: "int", nullable: false),
-                    user_id = table.Column<int>(type: "int", nullable: false)
+                    user_id = table.Column<int>(type: "int", nullable: false),
+                    relationship_id = table.Column<int>(type: "int", nullable: true),
+                    principal = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -420,6 +440,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         principalTable: "person",
                         principalColumn: "person_id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_person_user_relationship_relationship_id",
+                        column: x => x.relationship_id,
+                        principalSchema: "person",
+                        principalTable: "relationship",
+                        principalColumn: "relationship_id");
                     table.ForeignKey(
                         name: "FK_person_user_user_user_id",
                         column: x => x.user_id,
@@ -433,7 +459,11 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 schema: "person",
                 table: "address",
                 columns: new[] { "address_id", "city", "country", "created_at", "created_by", "exterior_number", "interior_number", "latitude", "longitude", "modified_at", "modified_by", "municipality", "postal_code", "reference", "settlement", "state", "street", "type" },
-                values: new object[] { 1, "CDMX", "México", null, null, "1400", "202", 0.0, 0.0, null, null, "Benito Juárez", "03303", "Junto al LuckySushi", "Portales Norte", "CDMX", "Dr. Jose Maria Vertiz", "Domicilio particular" });
+                values: new object[,]
+                {
+                    { 1, "CDMX", "México", null, null, "1400", "202", 0.0, 0.0, null, null, "Benito Juárez", "03303", "Junto al LuckySushi", "Portales Norte", "CDMX", "Dr. Jose Maria Vertiz", "Domicilio particular" },
+                    { 2, "CDMX", "México", null, null, "1400", "202", 0.0, 0.0, null, null, "Benito Juárez", "03303", "Junto al LuckySushi", "Portales Norte", "CDMX", "Dr. Jose Maria Vertiz", "Domicilio particular" }
+                });
 
             migrationBuilder.InsertData(
                 schema: "person",
@@ -464,9 +494,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(830), 1, "mdi mdi-home", "", 1, true, false, null, null, "Home", null, "/", "Inicio", "Inicio" },
-                    { 2, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(880), 1, "mdi mdi-settings", "", 2, true, false, null, null, "Settings", null, "/config", "Configuracion general", "Configuración" },
-                    { 8, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920), 1, "mdi mdi-reports", "", 2, true, false, null, null, "Reports", null, "/reports", "Reportes del sistema", "Reportes" }
+                    { 1, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4040), 1, "mdi mdi-home", "", 1, true, false, null, null, "Home", null, "/", "Inicio", "Inicio" },
+                    { 2, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-settings", "", 2, true, false, null, null, "Settings", null, "/config", "Configuracion general", "Configuración" },
+                    { 8, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4090), 1, "mdi mdi-reports", "", 2, true, false, null, null, "Reports", null, "/reports", "Reportes del sistema", "Reportes" }
                 });
 
             migrationBuilder.InsertData(
@@ -480,6 +510,20 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     { 3, "mdi mdi-pencil", "Actualizar", 3, "Actualizar", false, true, true, "update", null },
                     { 4, "mdi mdi-delete", "Eliminar", 4, "Eliminar", false, true, true, "delete", null },
                     { 5, "mdi mdi-export", "Exportar", 5, "Exportar", true, true, true, "export", null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "person",
+                table: "relationship",
+                columns: new[] { "relationship_id", "code", "description", "is_active", "name" },
+                values: new object[,]
+                {
+                    { 1, "H", "", true, "Hijo" },
+                    { 2, "E", "", true, "Esposo(a)" },
+                    { 3, "P", "", true, "Padre" },
+                    { 4, "M", "", true, "Madre" },
+                    { 5, "M", "", true, "Abuelo(a)" },
+                    { 6, "M", "", true, "Tutor" }
                 });
 
             migrationBuilder.InsertData(
@@ -497,7 +541,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 schema: "mail",
                 table: "template",
                 columns: new[] { "template_id", "content", "is_active", "is_html", "name", "url" },
-                values: new object[] { 1, "", true, true, "Activa tu cuenta", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html" });
+                values: new object[,]
+                {
+                    { 1, "", true, true, "Activa tu cuenta", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html" },
+                    { 2, "", true, true, "¿Olvidaste tu contraseña?", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html" },
+                    { 3, "", true, true, "Bienvenido", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html" }
+                });
 
             migrationBuilder.InsertData(
                 schema: "auth",
@@ -505,9 +554,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(890), 1, "mdi mdi-user", "", 1, true, false, null, null, "Users", 2, "/config/users", "Administracion de usuarios", "Usuarios" },
-                    { 4, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(910), 1, "mdi mdi-mod", "", 2, true, false, null, null, "Modules", 2, "/config/modules", "Administracion de módulos", "Módulos" },
-                    { 5, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(910), 1, "mdi mdi-cat", "", 3, true, false, null, null, "Catalogues", 2, "/config/cats", "Administracion de catálogos", "Catálogos" }
+                    { 3, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-user", "", 1, true, false, null, null, "Users", 2, "/config/users", "Administracion de usuarios", "Usuarios" },
+                    { 4, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-mod", "", 2, true, false, null, null, "Modules", 2, "/config/modules", "Administracion de módulos", "Módulos" },
+                    { 5, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 3, true, false, null, null, "Catalogues", 2, "/config/cats", "Administracion de catálogos", "Catálogos" }
                 });
 
             migrationBuilder.InsertData(
@@ -547,13 +596,17 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 schema: "person",
                 table: "person",
                 columns: new[] { "person_id", "address_id", "birthdate", "created_at", "created_by", "curp", "email", "gender_id", "home_phone", "lastname", "marital_status_id", "middlename", "mobile_phone", "modified_at", "modified_by", "name", "office_phone", "photo", "rfc", "title" },
-                values: new object[] { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 10, 25, 17, 48, 58, 258, DateTimeKind.Local).AddTicks(1270), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "", "EIHI831111", "Ing" });
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(160), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "Ing" },
+                    { 2, 2, new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(170), null, "", "ielizaldejr@swplus.com.mx", 1, "", "Elizalde", 1, "", "5514735111", null, null, "Ivan Jr", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "" }
+                });
 
             migrationBuilder.InsertData(
                 schema: "auth",
                 table: "user",
-                columns: new[] { "user_id", "created_at", "created_by", "email", "email_confirmed", "is_active", "modified_at", "modified_by", "name", "password", "role_id" },
-                values: new object[] { 1, new DateTime(2022, 10, 25, 17, 48, 58, 258, DateTimeKind.Local).AddTicks(8030), null, "ielizalde@swplus.com.mx", true, true, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
+                columns: new[] { "user_id", "created_at", "created_by", "email", "email_confirmed", "is_active", "is_temporary_password", "modified_at", "modified_by", "name", "password", "role_id" },
+                values: new object[] { 1, new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(8950), null, "ielizalde@swplus.com.mx", true, true, false, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
 
             migrationBuilder.InsertData(
                 schema: "auth",
@@ -561,8 +614,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 6, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920), 1, "mdi mdi-cat", "", 1, true, false, null, null, "Género", 5, "/config/sex", "Catálogo de géneros", "Generos" },
-                    { 7, new DateTime(2022, 10, 25, 17, 48, 58, 256, DateTimeKind.Local).AddTicks(920), 1, "mdi mdi-cat", "", 2, true, false, null, null, "País", 5, "/config/country", "Catálogo de paises", "Paises" }
+                    { 6, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 1, true, false, null, null, "Género", 5, "/config/sex", "Catálogo de géneros", "Generos" },
+                    { 7, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 2, true, false, null, null, "País", 5, "/config/country", "Catálogo de paises", "Paises" }
                 });
 
             migrationBuilder.InsertData(
@@ -622,8 +675,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
             migrationBuilder.InsertData(
                 schema: "person",
                 table: "person_user",
-                columns: new[] { "person_id", "user_id" },
-                values: new object[] { 1, 1 });
+                columns: new[] { "person_id", "user_id", "principal", "relationship_id" },
+                values: new object[,]
+                {
+                    { 1, 1, true, null },
+                    { 2, 1, false, 1 }
+                });
 
             migrationBuilder.InsertData(
                 schema: "auth",
@@ -740,6 +797,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 column: "marital_status_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_person_user_relationship_id",
+                schema: "person",
+                table: "person_user",
+                column: "relationship_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_person_user_user_id",
                 schema: "person",
                 table: "person_user",
@@ -792,6 +855,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "person",
+                schema: "person");
+
+            migrationBuilder.DropTable(
+                name: "relationship",
                 schema: "person");
 
             migrationBuilder.DropTable(

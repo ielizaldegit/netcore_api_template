@@ -80,11 +80,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(p => p.RoleId).IsRequired().HasColumnName("role_id").HasColumnType("int").HasColumnOrder(5);
         builder.Property(p => p.EmailConfirmed).HasColumnName("email_confirmed").HasColumnType("bit").HasColumnOrder(6);
         builder.Property(p => p.IsActive).HasColumnName("is_active").HasColumnType("bit").HasColumnOrder(7);
+        builder.Property(p => p.IsTemporaryPassword).HasColumnName("is_temporary_password").HasColumnType("bit").HasColumnOrder(8);
 
-        builder.Property(p => p.CreatedBy).HasColumnName("created_by").HasColumnType("int").HasColumnOrder(8);
-        builder.Property(p => p.CreatedAt).HasColumnName("created_at").HasColumnType("datetime2").HasColumnOrder(9);
-        builder.Property(p => p.ModifiedBy).HasColumnName("modified_by").HasColumnType("int").HasColumnOrder(10);
-        builder.Property(p => p.ModifiedAt).HasColumnName("modified_at").HasColumnType("datetime2").HasColumnOrder(11);
+        builder.Property(p => p.CreatedBy).HasColumnName("created_by").HasColumnType("int").HasColumnOrder(9);
+        builder.Property(p => p.CreatedAt).HasColumnName("created_at").HasColumnType("datetime2").HasColumnOrder(10);
+        builder.Property(p => p.ModifiedBy).HasColumnName("modified_by").HasColumnType("int").HasColumnOrder(11);
+        builder.Property(p => p.ModifiedAt).HasColumnName("modified_at").HasColumnType("datetime2").HasColumnOrder(12);
 
 
 
@@ -196,6 +197,22 @@ public class MaritalStatusConfiguration : IEntityTypeConfiguration<MaritalStatus
         builder.HasData(DbSeed.SeedMaritalStatus());
     }
 }
+public class RelationshipConfiguration : IEntityTypeConfiguration<Relationship>
+{
+    public void Configure(EntityTypeBuilder<Relationship> builder)
+    {
+        builder.ToTable("relationship", "person").HasKey(s => s.Id);
+        builder.Property(p => p.Id).IsRequired().HasColumnName("relationship_id").HasColumnType("int").HasColumnOrder(1).UseIdentityColumn();
+        builder.Property(p => p.Name).IsRequired().HasMaxLength(200).HasColumnName("name").HasColumnType("nvarchar").HasColumnOrder(2);
+        builder.Property(p => p.Description).HasMaxLength(200).HasColumnName("description").HasColumnType("nvarchar").HasColumnOrder(3);
+        builder.Property(p => p.Code).HasMaxLength(200).HasColumnName("code").HasColumnType("nvarchar").HasColumnOrder(4);
+        builder.Property(p => p.IsActive).HasColumnName("is_active").HasColumnType("bit").HasColumnOrder(5);
+
+        builder.HasMany(a => a.PersonUsers).WithOne(b => b.Relationship);
+        builder.HasData(DbSeed.SeedRelationship());
+    }
+}
+
 public class AddressConfiguration : IEntityTypeConfiguration<Address>
 {
     public void Configure(EntityTypeBuilder<Address> builder)
@@ -265,9 +282,14 @@ public class PersonUserConfiguration : IEntityTypeConfiguration<PersonUser>
         builder.ToTable("person_user", "person").HasKey(pu => new { pu.PersonId, pu.UserId });
         builder.Property(pu => pu.PersonId).IsRequired().HasColumnName("person_id").HasColumnType("int").HasColumnOrder(1);
         builder.Property(pu => pu.UserId).IsRequired().HasColumnName("user_id").HasColumnType("int").HasColumnOrder(2);
+        builder.Property(pu => pu.RelationshipId).IsRequired(false).HasColumnName("relationship_id").HasColumnType("int").HasColumnOrder(3);
+        builder.Property(pu => pu.Principal).IsRequired(false).HasColumnName("principal").HasColumnType("bit").HasColumnOrder(4);
+       
 
         builder.HasOne<Person>(m => m.Person).WithMany(m => m.PersonUsers).HasForeignKey(m => m.PersonId);
         builder.HasOne<User>(r => r.User).WithMany(r => r.PersonUsers).HasForeignKey(r => r.UserId);
+        builder.HasOne<Relationship>(r => r.Relationship).WithMany(r => r.PersonUsers).HasForeignKey(r => r.RelationshipId);
+
 
         builder.HasData(DbSeed.SeedPersonUsers());
     }
