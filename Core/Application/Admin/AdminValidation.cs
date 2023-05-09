@@ -1,9 +1,21 @@
 ﻿using Core.Application.Profile;
 using FluentValidation;
+using FluentValidation.Validators;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Application.Admin;
 
+
+
+public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
+{
+    public CreateUserRequestValidator()
+    {
+        RuleFor(p => p.Name).NotEmpty().EmailAddress(EmailValidationMode.Net4xRegex).WithMessage("El campo 'Name' no es una dirección de correo electrónico válida. ");
+        RuleFor(p => p.Email).NotEmpty().EmailAddress(EmailValidationMode.Net4xRegex).WithMessage("El campo 'Email' no es una dirección de correo electrónico válida. ");
+        RuleFor(p => p.RoleId).NotEmpty().GreaterThan(0);
+    }
+}
 
 
 public class CreatePermissionRequestValidator : AbstractValidator<CreatePermissionRequest> {

@@ -17,26 +17,25 @@ namespace Infrastructure.Persistence.Seed
 
             return new List<Role>()
                     {
-                        new Role{RoleId=1, Name="Root", Description= "", IsActive=true },
-                        new Role{RoleId=2, Name="Admin", Description= "", IsActive=true },
-                        new Role{RoleId=3, Name="User", Description= "", IsActive=true },
+                        new Role{RoleId=1, Name="Root", Description= "Root", IsActive=true },
+                        new Role{RoleId=2, Name="Admin", Description= "Administrador", IsActive=true },
+                        new Role{RoleId=3, Name="User", Description= "Usuario", IsActive=true },
                     };
         }
         public static List<Permission> SeedPermissions()
         {
-
             return new List<Permission>()
                     {
                         new Permission{PermissionId=1, Name="access", DisplayText= "Access", CssClass="", Description= "", Grouping=false, DisplayOrder=1, IsVisible= false, IsActive=true },
-                        new Permission{PermissionId=2, Name="create", DisplayText= "Nuevo", CssClass="mdi mdi-plus-circle", Description= "Crear nuevo", Grouping=false, DisplayOrder=2, IsVisible= true, IsActive=true },
-                        new Permission{PermissionId=3, Name="update", DisplayText= "Actualizar", CssClass="mdi mdi-pencil", Description= "Actualizar", Grouping=false, DisplayOrder=3, IsVisible= true, IsActive=true },
-                        new Permission{PermissionId=4, Name="delete", DisplayText= "Eliminar", CssClass="mdi mdi-delete", Description= "Eliminar", Grouping=false, DisplayOrder=4, IsVisible= true, IsActive=true },
-                        new Permission{PermissionId=5, Name="export", DisplayText= "Exportar", CssClass="mdi mdi-export", Description= "Exportar", Grouping=true, DisplayOrder=5, IsVisible= true, IsActive=true},
+                        new Permission{PermissionId=2, Name="create", DisplayText= "Nuevo", CssClass="fa-solid fa-circle-plus", Description= "Crear nuevo", Grouping=false, DisplayOrder=2, IsVisible= true, IsActive=true },
+                        new Permission{PermissionId=3, Name="update", DisplayText= "Actualizar", CssClass= "fa-solid fa-pen-to-square", Description= "Actualizar", Grouping=false, DisplayOrder=3, IsVisible= true, IsActive=true },
+                        new Permission{PermissionId=4, Name="delete", DisplayText= "Eliminar", CssClass= "fa-solid fa-eraser", Description= "Eliminar", Grouping=false, DisplayOrder=4, IsVisible= true, IsActive=true },
+                        new Permission{PermissionId=5, Name="export", DisplayText= "Exportar", CssClass= "fa-solid fa-file-export", Description= "Exportar", Grouping=true, DisplayOrder=5, IsVisible= true, IsActive=true},
 
-                        new Permission{PermissionId=6, Name="excel", DisplayText= "Excel", CssClass="mdi mdi-file-excel-box", Description= "Exportar a Excel", Grouping=false, DisplayOrder=1, IsVisible= true, IsActive=true, ParentId = 5 },
-                        new Permission{PermissionId=7, Name="pdf", DisplayText= "PDF", CssClass="mdi mdi-file-pdf-box", Description= "Exportar a PDF", Grouping=false, DisplayOrder=2, IsVisible= true, IsActive=true , ParentId = 5},
-                        new Permission{PermissionId=8, Name="csv", DisplayText= "CSV", CssClass="mdi mdi-file-delimited", Description= "Exportar a SCV", Grouping=false, DisplayOrder=3, IsVisible= true, IsActive=true , ParentId = 5}
-
+                        new Permission{PermissionId=6, Name="excel", DisplayText= "Excel", CssClass= "fa-solid fa-file-excel", Description= "Exportar a Excel", Grouping=false, DisplayOrder=1, IsVisible= true, IsActive=true, ParentId = 5 },
+                        new Permission{PermissionId=7, Name="pdf", DisplayText= "PDF", CssClass="fa-solid fa-file-pdf", Description= "Exportar a PDF", Grouping=false, DisplayOrder=2, IsVisible= true, IsActive=true , ParentId = 5},
+                        new Permission{PermissionId=8, Name="csv", DisplayText= "CSV", CssClass="fa-solid fa-file-csv", Description= "Exportar a CSV", Grouping=false, DisplayOrder=3, IsVisible= true, IsActive=true , ParentId = 5},
+                        new Permission{PermissionId=9, Name="authorize", DisplayText= "Autorizar", CssClass="fa-solid fa-key", Description= "Asigna roles y permisos", Grouping=false, DisplayOrder=6, IsVisible= true, IsActive=true}
                     };
         }
         public static List<User> SeedUsers()
@@ -51,17 +50,24 @@ namespace Infrastructure.Persistence.Seed
         {
 
             return new List<Module>()
-                {
-                        new Module {ModuleId=1, Name = "Home",      Title = "Inicio",       Subtitle = "Inicio",                    Route = "/",            CssClass = "mdi mdi-home",      Description = "",   DisplayOrder = 1,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now },
-                        new Module {ModuleId=2, Name = "Settings",  Title = "Configuración",Subtitle = "Configuracion general",     Route = "/config",      CssClass = "mdi mdi-settings",  Description = "",   DisplayOrder = 2,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now },
-                        new Module {ModuleId=3, Name = "Users",     Title = "Usuarios",     Subtitle = "Administracion de usuarios",Route ="/config/users", CssClass ="mdi mdi-user",       Description= "",    DisplayOrder=1,     IsVisible= false, IsActive=true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
-                        new Module {ModuleId=4, Name = "Modules",   Title = "Módulos",      Subtitle = "Administracion de módulos", Route ="/config/modules",CssClass="mdi mdi-mod",        Description= "",    DisplayOrder=2,     IsVisible= false, IsActive=true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
-                        new Module {ModuleId=5, Name = "Catalogues",Title = "Catálogos",    Subtitle = "Administracion de catálogos", Route="/config/cats", CssClass ="mdi mdi-cat",        Description= "",    DisplayOrder=3,     IsVisible= false, IsActive=true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
-                        new Module {ModuleId=6, Name = "Género",    Title = "Generos",      Subtitle = "Catálogo de géneros",       Route="/config/sex",    CssClass ="mdi mdi-cat",        Description= "",    DisplayOrder=1,     IsVisible= false, IsActive=true, ParentId = 5, CreatedBy= 1, CreatedAt = DateTime.Now},
-                        new Module {ModuleId=7, Name = "País",      Title = "Paises",       Subtitle = "Catálogo de paises",        Route="/config/country", CssClass ="mdi mdi-cat",        Description= "",    DisplayOrder=2,     IsVisible= false, IsActive=true, ParentId = 5, CreatedBy= 1, CreatedAt = DateTime.Now},
-                        new Module {ModuleId=8, Name = "Reports",   Title = "Reportes",     Subtitle = "Reportes del sistema",      Route = "/reports",     CssClass = "mdi mdi-reports",   Description = "",   DisplayOrder = 2,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now }
+            {
+                new Module {ModuleId=1, Name = "Home",      Title = "Inicio",           Subtitle = "Inicio",                CssClass = "fa-solid fa-house",        Description = "",   DisplayOrder =1,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now },
+                new Module {ModuleId=2, Name = "Settings",  Title = "Configuración",    Subtitle = "Configuracion general", CssClass = "fa-solid fa-gear",         Description = "",   DisplayOrder =2,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now },
+                new Module {ModuleId=3, Name = "Reports",   Title = "Reportes",         Subtitle = "Reportes del sistema",  CssClass = "fa-solid fa-file-lines",   Description = "",   DisplayOrder =3,   IsVisible = false, IsActive = true, CreatedBy= 1, CreatedAt = DateTime.Now },
 
-                };
+                new Module {ModuleId=4, Name = "Dashboard", Title = "Dashboard", Subtitle = "Panel principal", Route = "/site/dashboard", CssClass = "fa-solid fa-square-poll-vertical", Description = "", DisplayOrder =1, IsVisible = true, IsActive = true, ParentId = 1, CreatedBy= 1, CreatedAt = DateTime.Now },
+
+                new Module {ModuleId=5, Name = "Users", Title = "Usuarios", Subtitle = "Administracion de usuarios", Route = "/site/config/users", CssClass = "fa-solid fa-users", Description = "",DisplayOrder =1,IsVisible = true, IsActive = true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
+                new Module {ModuleId=6, Name = "Modules", Title = "Módulos", Subtitle = "Administracion de módulos",  Route = "/site/config/modules", CssClass = "fa-solid fa-cubes", Description = "",DisplayOrder =2,IsVisible = true, IsActive = true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
+                new Module {ModuleId=7, Name = "Roles", Title = "Roles", Subtitle = "Administracion de roles",  Route = "/site/config/roles", CssClass = "fa-solid fa-id-badge", Description = "",   DisplayOrder =3,IsVisible = true, IsActive = true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
+                new Module {ModuleId=8, Name = "Permissions", Title = "Permisos", Subtitle = "Administracion de permisos",  Route = "/site/config/permissions", CssClass = "fa-solid fa-user-shield", Description = "",DisplayOrder =4,IsVisible = true, IsActive = true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
+                new Module {ModuleId=9, Name = "Catalogues",Title = "Catálogos",        Subtitle = "Administracion de catálogos", CssClass = "fa-solid fa-rectangle-list", Description = "",   DisplayOrder =5,   IsVisible = true, IsActive = true, ParentId = 2, CreatedBy= 1, CreatedAt = DateTime.Now},
+
+                new Module {ModuleId=10, Name = "MailTemplate", Title = "Plantillas de correo", Subtitle = "Administración de plantillas", Route = "/site/config/catalogues/mail-templates", CssClass = "fa-solid fa-envelope-open-text", Description = "",   DisplayOrder =1,   IsVisible = true, IsActive = true, ParentId = 9, CreatedBy= 1, CreatedAt = DateTime.Now},
+ 
+                new Module {ModuleId=11, Name = "Activity", Title = "Actividad", Subtitle = "Reporte de actividad por usuario del sistema", Route = "/site/reports/activity", CssClass = "fa-solid fa-wave-square", Description = "",   DisplayOrder =1,   IsVisible = true, IsActive = true, ParentId = 3, CreatedBy= 1, CreatedAt = DateTime.Now }
+
+            };
         }
         public static List<ModulePermission> SeedModulesPermissions()
         {
@@ -71,23 +77,40 @@ namespace Infrastructure.Persistence.Seed
                         new ModulePermission {ModuleId=1, PermissionId = 1 },
                         new ModulePermission {ModuleId=2, PermissionId = 1 },
                         new ModulePermission {ModuleId=3, PermissionId = 1 },
-                        new ModulePermission {ModuleId=3, PermissionId = 2 },
-                        new ModulePermission {ModuleId=3, PermissionId = 3 },
-                        new ModulePermission {ModuleId=3, PermissionId = 4 },
+
                         new ModulePermission {ModuleId=4, PermissionId = 1 },
-                        new ModulePermission {ModuleId=4, PermissionId = 2 },
-                        new ModulePermission {ModuleId=4, PermissionId = 3 },
-                        new ModulePermission {ModuleId=4, PermissionId = 4 },
+
                         new ModulePermission {ModuleId=5, PermissionId = 1 },
+                        new ModulePermission {ModuleId=5, PermissionId = 2 },
+                        new ModulePermission {ModuleId=5, PermissionId = 3 },
+                        new ModulePermission {ModuleId=5, PermissionId = 4 },
                         new ModulePermission {ModuleId=6, PermissionId = 1 },
                         new ModulePermission {ModuleId=6, PermissionId = 2 },
                         new ModulePermission {ModuleId=6, PermissionId = 3 },
                         new ModulePermission {ModuleId=6, PermissionId = 4 },
+                        new ModulePermission {ModuleId=6, PermissionId = 9 },
                         new ModulePermission {ModuleId=7, PermissionId = 1 },
                         new ModulePermission {ModuleId=7, PermissionId = 2 },
                         new ModulePermission {ModuleId=7, PermissionId = 3 },
                         new ModulePermission {ModuleId=7, PermissionId = 4 },
-                        new ModulePermission {ModuleId=8, PermissionId = 1 }
+                        new ModulePermission {ModuleId=8, PermissionId = 1 },
+                        new ModulePermission {ModuleId=8, PermissionId = 2 },
+                        new ModulePermission {ModuleId=8, PermissionId = 3 },
+                        new ModulePermission {ModuleId=8, PermissionId = 4 },
+                        new ModulePermission {ModuleId=9, PermissionId = 1 },
+
+
+                        new ModulePermission {ModuleId=10, PermissionId = 1 },
+                        new ModulePermission {ModuleId=10, PermissionId = 2 },
+                        new ModulePermission {ModuleId=10, PermissionId = 3 },
+                        new ModulePermission {ModuleId=10, PermissionId = 4 },
+
+                        new ModulePermission {ModuleId=11, PermissionId = 1 },
+                        new ModulePermission {ModuleId=11, PermissionId = 5 },
+                        new ModulePermission {ModuleId=11, PermissionId = 6 },
+                        new ModulePermission {ModuleId=11, PermissionId = 7 },
+                        new ModulePermission {ModuleId=11, PermissionId = 8 }
+
 
                 };
         }
@@ -99,23 +122,39 @@ namespace Infrastructure.Persistence.Seed
                         new ModuleRole {RoleId= 1, ModuleId=1, PermissionId = 1 },
                         new ModuleRole {RoleId= 1, ModuleId=2, PermissionId = 1 },
                         new ModuleRole {RoleId= 1, ModuleId=3, PermissionId = 1 },
-                        new ModuleRole {RoleId= 1, ModuleId=3, PermissionId = 2 },
-                        new ModuleRole {RoleId= 1, ModuleId=3, PermissionId = 3 },
-                        new ModuleRole {RoleId= 1, ModuleId=3, PermissionId = 4 },
+
                         new ModuleRole {RoleId= 1, ModuleId=4, PermissionId = 1 },
-                        new ModuleRole {RoleId= 1, ModuleId=4, PermissionId = 2 },
-                        new ModuleRole {RoleId= 1, ModuleId=4, PermissionId = 3 },
-                        new ModuleRole {RoleId= 1, ModuleId=4, PermissionId = 4 },
+
                         new ModuleRole {RoleId= 1, ModuleId=5, PermissionId = 1 },
+                        new ModuleRole {RoleId= 1, ModuleId=5, PermissionId = 2 },
+                        new ModuleRole {RoleId= 1, ModuleId=5, PermissionId = 3 },
+                        new ModuleRole {RoleId= 1, ModuleId=5, PermissionId = 4 },
                         new ModuleRole {RoleId= 1, ModuleId=6, PermissionId = 1 },
                         new ModuleRole {RoleId= 1, ModuleId=6, PermissionId = 2 },
                         new ModuleRole {RoleId= 1, ModuleId=6, PermissionId = 3 },
                         new ModuleRole {RoleId= 1, ModuleId=6, PermissionId = 4 },
+                        new ModuleRole {RoleId= 1, ModuleId=6, PermissionId = 9 },
                         new ModuleRole {RoleId= 1, ModuleId=7, PermissionId = 1 },
                         new ModuleRole {RoleId= 1, ModuleId=7, PermissionId = 2 },
                         new ModuleRole {RoleId= 1, ModuleId=7, PermissionId = 3 },
                         new ModuleRole {RoleId= 1, ModuleId=7, PermissionId = 4 },
-                        new ModuleRole {RoleId= 1, ModuleId=8, PermissionId = 1 }
+                        new ModuleRole {RoleId= 1, ModuleId=8, PermissionId = 1 },
+                        new ModuleRole {RoleId= 1, ModuleId=8, PermissionId = 2 },
+                        new ModuleRole {RoleId= 1, ModuleId=8, PermissionId = 3 },
+                        new ModuleRole {RoleId= 1, ModuleId=8, PermissionId = 4 },
+                        new ModuleRole {RoleId= 1, ModuleId=9, PermissionId = 1 },
+
+
+                        new ModuleRole {RoleId= 1, ModuleId=10, PermissionId = 1 },
+                        new ModuleRole {RoleId= 1, ModuleId=10, PermissionId = 2 },
+                        new ModuleRole {RoleId= 1, ModuleId=10, PermissionId = 3 },
+                        new ModuleRole {RoleId= 1, ModuleId=10, PermissionId = 4 },
+
+                        new ModuleRole {RoleId= 1, ModuleId=11, PermissionId = 1 },
+                        new ModuleRole {RoleId= 1, ModuleId=11, PermissionId = 5 },
+                        new ModuleRole {RoleId= 1, ModuleId=11, PermissionId = 6 },
+                        new ModuleRole {RoleId= 1, ModuleId=11, PermissionId = 7 },
+                        new ModuleRole {RoleId= 1, ModuleId=11, PermissionId = 8 }
 
                 };
         }
@@ -127,23 +166,40 @@ namespace Infrastructure.Persistence.Seed
                         new ModuleUser {UserId= 1, ModuleId=1, PermissionId = 1 },
                         new ModuleUser {UserId= 1, ModuleId=2, PermissionId = 1 },
                         new ModuleUser {UserId= 1, ModuleId=3, PermissionId = 1 },
-                        new ModuleUser {UserId= 1, ModuleId=3, PermissionId = 2 },
-                        new ModuleUser {UserId= 1, ModuleId=3, PermissionId = 3 },
-                        new ModuleUser {UserId= 1, ModuleId=3, PermissionId = 4 },
+
                         new ModuleUser {UserId= 1, ModuleId=4, PermissionId = 1 },
-                        new ModuleUser {UserId= 1, ModuleId=4, PermissionId = 2 },
-                        new ModuleUser {UserId= 1, ModuleId=4, PermissionId = 3 },
-                        new ModuleUser {UserId= 1, ModuleId=4, PermissionId = 4 },
+
                         new ModuleUser {UserId= 1, ModuleId=5, PermissionId = 1 },
+                        new ModuleUser {UserId= 1, ModuleId=5, PermissionId = 2 },
+                        new ModuleUser {UserId= 1, ModuleId=5, PermissionId = 3 },
+                        new ModuleUser {UserId= 1, ModuleId=5, PermissionId = 4 },
                         new ModuleUser {UserId= 1, ModuleId=6, PermissionId = 1 },
                         new ModuleUser {UserId= 1, ModuleId=6, PermissionId = 2 },
                         new ModuleUser {UserId= 1, ModuleId=6, PermissionId = 3 },
                         new ModuleUser {UserId= 1, ModuleId=6, PermissionId = 4 },
+                        new ModuleUser {UserId= 1, ModuleId=6, PermissionId = 9 },
                         new ModuleUser {UserId= 1, ModuleId=7, PermissionId = 1 },
                         new ModuleUser {UserId= 1, ModuleId=7, PermissionId = 2 },
                         new ModuleUser {UserId= 1, ModuleId=7, PermissionId = 3 },
                         new ModuleUser {UserId= 1, ModuleId=7, PermissionId = 4 },
-                        new ModuleUser {UserId= 1, ModuleId=8, PermissionId = 1 }
+                        new ModuleUser {UserId= 1, ModuleId=8, PermissionId = 1 },
+                        new ModuleUser {UserId= 1, ModuleId=8, PermissionId = 2 },
+                        new ModuleUser {UserId= 1, ModuleId=8, PermissionId = 3 },
+                        new ModuleUser {UserId= 1, ModuleId=8, PermissionId = 4 },
+                        new ModuleUser {UserId= 1, ModuleId=9, PermissionId = 1 },
+
+
+                        new ModuleUser {UserId= 1, ModuleId=10, PermissionId = 1 },
+                        new ModuleUser {UserId= 1, ModuleId=10, PermissionId = 2 },
+                        new ModuleUser {UserId= 1, ModuleId=10, PermissionId = 3 },
+                        new ModuleUser {UserId= 1, ModuleId=10, PermissionId = 4 },
+
+                        new ModuleUser {UserId= 1, ModuleId=11, PermissionId = 1 },
+                        new ModuleUser {UserId= 1, ModuleId=11, PermissionId = 5 },
+                        new ModuleUser {UserId= 1, ModuleId=11, PermissionId = 6 },
+                        new ModuleUser {UserId= 1, ModuleId=11, PermissionId = 7 },
+                        new ModuleUser {UserId= 1, ModuleId=11, PermissionId = 8 }
+
 
                 };
         }
@@ -227,9 +283,9 @@ namespace Infrastructure.Persistence.Seed
 
             return new List<Template>()
                 {
-                    new Template{TemplateId=1, Name="Activa tu cuenta", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html", Content= "", IsHtml=true, IsCustom=true },
-                    new Template{TemplateId=2, Name="¿Olvidaste tu contraseña?", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html", Content= "", IsHtml=true, IsCustom=true },
-                    new Template{TemplateId=3, Name="Bienvenido", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html", Content= "", IsHtml=true, IsCustom=true }
+                    new Template{TemplateId=1, Name="activation_account", Subject="Activa tu cuenta", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html", Content= "", IsHtml=true, IsCustom=true },
+                    new Template{TemplateId=2, Name="forgot_password", Subject="¿Olvidaste tu contraseña?", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html", Content= "", IsHtml=true, IsCustom=true },
+                    new Template{TemplateId=3, Name="welcome", Subject="Bienvenido", Url="https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html", Content= "", IsHtml=true, IsCustom=true }
 
                 };
         }

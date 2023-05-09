@@ -210,6 +210,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     template_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    subject = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     url = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     content = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
                     is_html = table.Column<bool>(type: "bit", nullable: false),
@@ -233,7 +234,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     gender_id = table.Column<int>(type: "int", nullable: true),
                     address_id = table.Column<int>(type: "int", nullable: true),
                     marital_status_id = table.Column<int>(type: "int", nullable: true),
-                    birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     home_phone = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
@@ -494,9 +495,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4040), 1, "mdi mdi-home", "", 1, true, false, null, null, "Home", null, "/", "Inicio", "Inicio" },
-                    { 2, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-settings", "", 2, true, false, null, null, "Settings", null, "/config", "Configuracion general", "Configuración" },
-                    { 8, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4090), 1, "mdi mdi-reports", "", 2, true, false, null, null, "Reports", null, "/reports", "Reportes del sistema", "Reportes" }
+                    { 1, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3470), 1, "fa-solid fa-house", "", 1, true, false, null, null, "Home", null, null, "Inicio", "Inicio" },
+                    { 2, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3510), 1, "fa-solid fa-gear", "", 2, true, false, null, null, "Settings", null, null, "Configuracion general", "Configuración" },
+                    { 3, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3580), 1, "fa-solid fa-file-lines", "", 3, true, false, null, null, "Reports", null, null, "Reportes del sistema", "Reportes" }
                 });
 
             migrationBuilder.InsertData(
@@ -506,10 +507,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 values: new object[,]
                 {
                     { 1, "", "", 1, "Access", false, true, false, "access", null },
-                    { 2, "mdi mdi-plus-circle", "Crear nuevo", 2, "Nuevo", false, true, true, "create", null },
-                    { 3, "mdi mdi-pencil", "Actualizar", 3, "Actualizar", false, true, true, "update", null },
-                    { 4, "mdi mdi-delete", "Eliminar", 4, "Eliminar", false, true, true, "delete", null },
-                    { 5, "mdi mdi-export", "Exportar", 5, "Exportar", true, true, true, "export", null }
+                    { 2, "fa-solid fa-circle-plus", "Crear nuevo", 2, "Nuevo", false, true, true, "create", null },
+                    { 3, "fa-solid fa-pen-to-square", "Actualizar", 3, "Actualizar", false, true, true, "update", null },
+                    { 4, "fa-solid fa-eraser", "Eliminar", 4, "Eliminar", false, true, true, "delete", null },
+                    { 5, "fa-solid fa-file-export", "Exportar", 5, "Exportar", true, true, true, "export", null }
                 });
 
             migrationBuilder.InsertData(
@@ -540,12 +541,12 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
             migrationBuilder.InsertData(
                 schema: "mail",
                 table: "template",
-                columns: new[] { "template_id", "content", "is_active", "is_html", "name", "url" },
+                columns: new[] { "template_id", "content", "is_active", "is_html", "name", "subject", "url" },
                 values: new object[,]
                 {
-                    { 1, "", true, true, "Activa tu cuenta", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html" },
-                    { 2, "", true, true, "¿Olvidaste tu contraseña?", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html" },
-                    { 3, "", true, true, "Bienvenido", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html" }
+                    { 1, "", true, true, "activation_account", "Activa tu cuenta", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html" },
+                    { 2, "", true, true, "forgot_password", "¿Olvidaste tu contraseña?", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html" },
+                    { 3, "", true, true, "welcome", "Bienvenido", "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html" }
                 });
 
             migrationBuilder.InsertData(
@@ -554,9 +555,13 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-user", "", 1, true, false, null, null, "Users", 2, "/config/users", "Administracion de usuarios", "Usuarios" },
-                    { 4, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070), 1, "mdi mdi-mod", "", 2, true, false, null, null, "Modules", 2, "/config/modules", "Administracion de módulos", "Módulos" },
-                    { 5, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 3, true, false, null, null, "Catalogues", 2, "/config/cats", "Administracion de catálogos", "Catálogos" }
+                    { 4, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3590), 1, "fa-solid fa-square-poll-vertical", "", 1, true, true, null, null, "Dashboard", 1, "/site/dashboard", "Panel principal", "Dashboard" },
+                    { 5, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3590), 1, "fa-solid fa-users", "", 1, true, true, null, null, "Users", 2, "/site/config/users", "Administracion de usuarios", "Usuarios" },
+                    { 6, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3600), 1, "fa-solid fa-cubes", "", 2, true, true, null, null, "Modules", 2, "/site/config/modules", "Administracion de módulos", "Módulos" },
+                    { 7, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3600), 1, "fa-solid fa-id-badge", "", 3, true, true, null, null, "Roles", 2, "/site/config/roles", "Administracion de roles", "Roles" },
+                    { 8, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610), 1, "fa-solid fa-user-shield", "", 4, true, true, null, null, "Permissions", 2, "/site/config/permissions", "Administracion de permisos", "Permisos" },
+                    { 9, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610), 1, "fa-solid fa-rectangle-list", "", 5, true, true, null, null, "Catalogues", 2, null, "Administracion de catálogos", "Catálogos" },
+                    { 11, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3620), 1, "fa-solid fa-wave-square", "", 1, true, true, null, null, "Activity", 3, "/site/reports/activity", "Reporte de actividad por usuario del sistema", "Actividad" }
                 });
 
             migrationBuilder.InsertData(
@@ -567,7 +572,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 {
                     { 1, 1 },
                     { 2, 1 },
-                    { 8, 1 }
+                    { 3, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -578,7 +583,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 {
                     { 1, 1, 1 },
                     { 2, 1, 1 },
-                    { 8, 1, 1 }
+                    { 3, 1, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -587,9 +592,9 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "permission_id", "css_class", "description", "display_order", "display_text", "grouping", "is_active", "is_visible", "name", "parent_id" },
                 values: new object[,]
                 {
-                    { 6, "mdi mdi-file-excel-box", "Exportar a Excel", 1, "Excel", false, true, true, "excel", 5 },
-                    { 7, "mdi mdi-file-pdf-box", "Exportar a PDF", 2, "PDF", false, true, true, "pdf", 5 },
-                    { 8, "mdi mdi-file-delimited", "Exportar a SCV", 3, "CSV", false, true, true, "csv", 5 }
+                    { 6, "fa-solid fa-file-excel", "Exportar a Excel", 1, "Excel", false, true, true, "excel", 5 },
+                    { 7, "fa-solid fa-file-pdf", "Exportar a PDF", 2, "PDF", false, true, true, "pdf", 5 },
+                    { 8, "fa-solid fa-file-csv", "Exportar a CSV", 3, "CSV", false, true, true, "csv", 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -598,25 +603,21 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "person_id", "address_id", "birthdate", "created_at", "created_by", "curp", "email", "gender_id", "home_phone", "lastname", "marital_status_id", "middlename", "mobile_phone", "modified_at", "modified_by", "name", "office_phone", "photo", "rfc", "title" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(160), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "Ing" },
-                    { 2, 2, new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(170), null, "", "ielizaldejr@swplus.com.mx", 1, "", "Elizalde", 1, "", "5514735111", null, null, "Ivan Jr", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "" }
+                    { 1, 1, new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 12, 23, 12, 19, 6, 763, DateTimeKind.Local).AddTicks(3350), null, "", "ielizalde@swplus.com.mx", 1, "", "Elizalde", 1, "Hernandez", "5514735111", null, null, "Ivan", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "Ing" },
+                    { 2, 2, new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 12, 23, 12, 19, 6, 763, DateTimeKind.Local).AddTicks(3370), null, "", "ielizaldejr@swplus.com.mx", 1, "", "Elizalde", 1, "", "5514735111", null, null, "Ivan Jr", "", "https://gestordoc.blob.core.windows.net/swplus-20220927/assets/avatar.png", "EIHI831111", "" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "auth",
                 table: "user",
                 columns: new[] { "user_id", "created_at", "created_by", "email", "email_confirmed", "is_active", "is_temporary_password", "modified_at", "modified_by", "name", "password", "role_id" },
-                values: new object[] { 1, new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(8950), null, "ielizalde@swplus.com.mx", true, true, false, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
+                values: new object[] { 1, new DateTime(2022, 12, 23, 12, 19, 6, 764, DateTimeKind.Local).AddTicks(3230), null, "ielizalde@swplus.com.mx", true, true, false, null, null, "ielizalde@swplus.com.mx", "AQAAAAEAACcQAAAAEAvkiEeQxy1Hy8UyXthH/+YaySd3JjAaRoqZ74PMA/Svv9M0sY25C0qmBLLOToJh2A==", 1 });
 
             migrationBuilder.InsertData(
                 schema: "auth",
                 table: "module",
                 columns: new[] { "module_id", "created_at", "created_by", "css_class", "description", "display_order", "is_active", "is_visible", "modified_at", "modified_by", "name", "parent_id", "route", "subtitle", "title" },
-                values: new object[,]
-                {
-                    { 6, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 1, true, false, null, null, "Género", 5, "/config/sex", "Catálogo de géneros", "Generos" },
-                    { 7, new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080), 1, "mdi mdi-cat", "", 2, true, false, null, null, "País", 5, "/config/country", "Catálogo de paises", "Paises" }
-                });
+                values: new object[] { 10, new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610), 1, "fa-solid fa-envelope-open-text", "", 1, true, true, null, null, "MailTemplate", 9, "/site/config/catalogues/mail-templates", "Administración de plantillas", "Plantillas de correo" });
 
             migrationBuilder.InsertData(
                 schema: "auth",
@@ -624,15 +625,29 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "permission_id" },
                 values: new object[,]
                 {
-                    { 3, 1 },
-                    { 3, 2 },
-                    { 3, 3 },
-                    { 3, 4 },
                     { 4, 1 },
-                    { 4, 2 },
-                    { 4, 3 },
-                    { 4, 4 },
-                    { 5, 1 }
+                    { 5, 1 },
+                    { 5, 2 },
+                    { 5, 3 },
+                    { 5, 4 },
+                    { 6, 1 },
+                    { 6, 2 },
+                    { 6, 3 },
+                    { 6, 4 },
+                    { 7, 1 },
+                    { 7, 2 },
+                    { 7, 3 },
+                    { 7, 4 },
+                    { 8, 1 },
+                    { 8, 2 },
+                    { 8, 3 },
+                    { 8, 4 },
+                    { 9, 1 },
+                    { 11, 1 },
+                    { 11, 5 },
+                    { 11, 6 },
+                    { 11, 7 },
+                    { 11, 8 }
                 });
 
             migrationBuilder.InsertData(
@@ -641,15 +656,37 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "permission_id", "role_id" },
                 values: new object[,]
                 {
-                    { 3, 1, 1 },
-                    { 3, 2, 1 },
-                    { 3, 3, 1 },
-                    { 3, 4, 1 },
                     { 4, 1, 1 },
-                    { 4, 2, 1 },
-                    { 4, 3, 1 },
-                    { 4, 4, 1 },
-                    { 5, 1, 1 }
+                    { 5, 1, 1 },
+                    { 5, 2, 1 },
+                    { 5, 3, 1 },
+                    { 5, 4, 1 },
+                    { 6, 1, 1 },
+                    { 6, 2, 1 },
+                    { 6, 3, 1 },
+                    { 6, 4, 1 },
+                    { 7, 1, 1 },
+                    { 7, 2, 1 },
+                    { 7, 3, 1 },
+                    { 7, 4, 1 },
+                    { 8, 1, 1 },
+                    { 8, 2, 1 },
+                    { 8, 3, 1 },
+                    { 8, 4, 1 },
+                    { 9, 1, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "auth",
+                table: "module_role",
+                columns: new[] { "module_id", "permission_id", "role_id" },
+                values: new object[,]
+                {
+                    { 11, 1, 1 },
+                    { 11, 5, 1 },
+                    { 11, 6, 1 },
+                    { 11, 7, 1 },
+                    { 11, 8, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -661,15 +698,29 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     { 1, 1, 1 },
                     { 2, 1, 1 },
                     { 3, 1, 1 },
-                    { 3, 2, 1 },
-                    { 3, 3, 1 },
-                    { 3, 4, 1 },
                     { 4, 1, 1 },
-                    { 4, 2, 1 },
-                    { 4, 3, 1 },
-                    { 4, 4, 1 },
                     { 5, 1, 1 },
-                    { 8, 1, 1 }
+                    { 5, 2, 1 },
+                    { 5, 3, 1 },
+                    { 5, 4, 1 },
+                    { 6, 1, 1 },
+                    { 6, 2, 1 },
+                    { 6, 3, 1 },
+                    { 6, 4, 1 },
+                    { 7, 1, 1 },
+                    { 7, 2, 1 },
+                    { 7, 3, 1 },
+                    { 7, 4, 1 },
+                    { 8, 1, 1 },
+                    { 8, 2, 1 },
+                    { 8, 3, 1 },
+                    { 8, 4, 1 },
+                    { 9, 1, 1 },
+                    { 11, 1, 1 },
+                    { 11, 5, 1 },
+                    { 11, 6, 1 },
+                    { 11, 7, 1 },
+                    { 11, 8, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -688,14 +739,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "permission_id" },
                 values: new object[,]
                 {
-                    { 6, 1 },
-                    { 6, 2 },
-                    { 6, 3 },
-                    { 6, 4 },
-                    { 7, 1 },
-                    { 7, 2 },
-                    { 7, 3 },
-                    { 7, 4 }
+                    { 10, 1 },
+                    { 10, 2 },
+                    { 10, 3 },
+                    { 10, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -704,14 +751,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "permission_id", "role_id" },
                 values: new object[,]
                 {
-                    { 6, 1, 1 },
-                    { 6, 2, 1 },
-                    { 6, 3, 1 },
-                    { 6, 4, 1 },
-                    { 7, 1, 1 },
-                    { 7, 2, 1 },
-                    { 7, 3, 1 },
-                    { 7, 4, 1 }
+                    { 10, 1, 1 },
+                    { 10, 2, 1 },
+                    { 10, 3, 1 },
+                    { 10, 4, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -720,14 +763,10 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                 columns: new[] { "module_id", "permission_id", "user_id" },
                 values: new object[,]
                 {
-                    { 6, 1, 1 },
-                    { 6, 2, 1 },
-                    { 6, 3, 1 },
-                    { 6, 4, 1 },
-                    { 7, 1, 1 },
-                    { 7, 2, 1 },
-                    { 7, 3, 1 },
-                    { 7, 4, 1 }
+                    { 10, 1, 1 },
+                    { 10, 2, 1 },
+                    { 10, 3, 1 },
+                    { 10, 4, 1 }
                 });
 
             migrationBuilder.CreateIndex(

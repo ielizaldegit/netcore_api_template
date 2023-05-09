@@ -1,4 +1,5 @@
 ﻿using Core.Application.Common.Models;
+using Core.Application.Profile;
 using Core.Entities.Auth;
 
 namespace Core.Application.Admin;
@@ -6,16 +7,26 @@ namespace Core.Application.Admin;
 public class CreateUserRequest {
     public string Name { get; set; }
     public string Email { get; set; }
+    public string Password { get; set; }
+    public bool IsTemporaryPassword { get; set; }
     public int RoleId { get; set; }
 }
 public class UserResponse: CreateUserRequest {
     public int UserId { get; set; }
     public string Role { get; set; }
-    public string TemporaryPassword { get; set; }
     public bool EmailConfirmed { get; set; }
-    public bool IsTemporaryPassword { get; set; }
     public bool IsActive { get; set; }
+    public PersonResponse Profile { get; set; }
 }
+
+
+public class UpdatePasswordRequest
+{
+    public int UserId { get; set; }
+    public string Password { get; set; }
+    public bool IsTemporaryPassword { get; set; }
+}
+
 
 
 

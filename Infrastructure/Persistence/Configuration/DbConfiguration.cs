@@ -255,7 +255,7 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.Property(p => p.GenderId).IsRequired(false).HasColumnName("gender_id").HasColumnType("int").HasColumnOrder(5);
         builder.Property(p => p.AddressId).IsRequired(false).HasColumnName("address_id").HasColumnType("int").HasColumnOrder(6);
         builder.Property(p => p.MaritalStatusId).IsRequired(false).HasColumnName("marital_status_id").HasColumnType("int").HasColumnOrder(7);
-        builder.Property(p => p.Birthdate).HasColumnName("birthdate").HasColumnType("datetime2").HasColumnOrder(8);
+        builder.Property(p => p.Birthdate).IsRequired(false).HasColumnName("birthdate").HasColumnType("datetime2").HasColumnOrder(8);
         builder.Property(p => p.Title).HasMaxLength(200).HasColumnName("title").HasColumnType("nvarchar").HasColumnOrder(9);
         builder.Property(p => p.Email).HasMaxLength(200).HasColumnName("email").HasColumnType("nvarchar").HasColumnOrder(10);
         builder.Property(p => p.HomePhone).HasMaxLength(200).HasColumnName("home_phone").HasColumnType("nvarchar").HasColumnOrder(11);
@@ -305,10 +305,11 @@ public class MailTemplateConfiguration : IEntityTypeConfiguration<Template>
         builder.ToTable("template", "mail").HasKey(s => s.TemplateId);
         builder.Property(p => p.TemplateId).IsRequired().HasColumnName("template_id").HasColumnType("int").HasColumnOrder(1).UseIdentityColumn();
         builder.Property(p => p.Name).IsRequired().HasMaxLength(250).HasColumnName("name").HasColumnType("nvarchar").HasColumnOrder(2);
-        builder.Property(p => p.Url).IsRequired().HasMaxLength(250).HasColumnName("url").HasColumnType("nvarchar").HasColumnOrder(3);
-        builder.Property(p => p.Content).HasColumnName("content").HasColumnType("nvarchar(MAX)").HasColumnOrder(4);
-        builder.Property(p => p.IsHtml).HasColumnName("is_html").HasColumnType("bit").HasColumnOrder(5);
-        builder.Property(p => p.IsCustom).HasColumnName("is_active").HasColumnType("bit").HasColumnOrder(6);
+        builder.Property(p => p.Subject).IsRequired().HasMaxLength(250).HasColumnName("subject").HasColumnType("nvarchar").HasColumnOrder(3);
+        builder.Property(p => p.Url).IsRequired().HasMaxLength(250).HasColumnName("url").HasColumnType("nvarchar").HasColumnOrder(4);
+        builder.Property(p => p.Content).HasColumnName("content").HasColumnType("nvarchar(MAX)").HasColumnOrder(5);
+        builder.Property(p => p.IsHtml).HasColumnName("is_html").HasColumnType("bit").HasColumnOrder(6);
+        builder.Property(p => p.IsCustom).HasColumnName("is_active").HasColumnType("bit").HasColumnOrder(7);
 
         builder.HasData(DbSeed.SeedMailTemplates());
     }

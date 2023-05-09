@@ -27,7 +27,7 @@ public class UpdatePasswordRequestValidator : AbstractValidator<UpdatePasswordRe
 {
     public UpdatePasswordRequestValidator()
     {
-        RuleFor(p => p.UserId).NotEmpty().GreaterThan(0);
+        //RuleFor(p => p.UserId).NotEmpty().GreaterThan(0);
         RuleFor(p => p.CurrentPassword).NotNull();
         RuleFor(p => p.NewPassword).NotNull();
     }

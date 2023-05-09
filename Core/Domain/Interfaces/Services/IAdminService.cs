@@ -8,6 +8,7 @@ public interface IAdminService : IScopedService
 {
     Task<List<UserResponse>> GetAllUsersAsync();
     Task<UserResponse> RegisterAsync(CreateUserRequest request);
+    Task UpdatePasswordAsync(UpdatePasswordRequest request);
 
     Task<List<PermissionResponse>> GetAllPermissionsAsync();
     Task<List<PermissionResponse>> GetParentPermissionsAsync();
@@ -29,6 +30,7 @@ public interface IAdminService : IScopedService
     Task<RoleResponse> AddRolesAsync(CreateRoleRequest request);
     Task<RoleResponse> UpdateRolesAsync(UpdateRoleRequest request);
     Task DeleteRoleAsync(int id);
+    Task<List<ModuleResponse>> GetRoleModulesAsync(int RoleId);
     Task AddRoleModuleAsync(int RoleId, int ModuleId, int PermissionId);
     Task DeleteRoleModuleAsync(int RoleId, int ModuleId, int PermissionId);
 }

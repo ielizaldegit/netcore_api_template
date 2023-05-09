@@ -40,7 +40,13 @@ public class UserController : VersionNeutralApiController
         return Ok(result);
     }
 
-
+    [HttpPost("update-password")]
+    [OpenApiOperation("Actualiza el password de un usuario", "")]
+    public async Task<ActionResult> UpdatePassword(UpdatePasswordRequest request)
+    {
+        await _authService.UpdatePasswordAsync(request);
+        return Ok();
+    }
 
 
 

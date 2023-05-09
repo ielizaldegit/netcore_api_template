@@ -76,10 +76,11 @@ public class AuthService : IAuthService
 
 
         User usuario = _mapper.Map<User>(request);
+        usuario.Name = request.Email;
         usuario.Password = _passwordHasher.HashPassword(usuario, request.Password);
 
 
-        var existe = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Name));
+        var existe = await _unitOfWork.Users.FirstOrDefaultAsync(new UserByName(request.Email));
 
         if (existe == null || existe?.IsActive == false) {
 
@@ -99,7 +100,7 @@ public class AuthService : IAuthService
                 usuario.PersonUsers = new List<PersonUser> {
                     new PersonUser() {
                         Principal = true,
-                        Person = new Person() {Name = "", LastName = "", Photo = photo, Address = new Address(){} }       
+                        Person = new Person() {Name = request.FirstName, LastName = request.LastName, Photo = photo, Address = new Address(){} }       
                     } 
                 };
 
@@ -117,7 +118,7 @@ public class AuthService : IAuthService
                 if (RequireConfirmedAccount)  {
                     int expirationHours = _configuration.GetValue<int>("SecuritySettings:ActivationLinkExpiration");
                     var activationId = await SaveMailActivation(usuario.UserId, expirationHours);
-                    await SendConfirmationEmail(request.Email, request.Name, activationId);
+                    await SendConfirmationEmail(request.Email, request.FirstName, activationId);
                 }
                 else dto.Token = _unitOfWork.Auth.GenerateJwt(usuario);
 
@@ -132,7 +133,7 @@ public class AuthService : IAuthService
             }
         }
         else {
-            throw new BadRequestException($"El usuario {request.Name} ya se encuentra registrado.");
+            throw new BadRequestException($"El usuario {request.Email} ya se encuentra registrado.");
         }
     }
 
@@ -299,7 +300,7 @@ public class AuthService : IAuthService
 
         var mailRequest = new EmailRequest();
         mailRequest.To = new List<RecipientCustom> { new RecipientCustom() { Email = email, Name = name, Data = _jsonSerializer.Serialize(data) } };
-        mailRequest.Subject = template.Name;
+        mailRequest.Subject = template.Subject;
         mailRequest.HTMLTemplate = template.Url;
         mailRequest.IsUrlTemplate = template.IsHtml;
         mailRequest.IsCustomized = template.IsCustom;
@@ -317,7 +318,7 @@ public class AuthService : IAuthService
 
         var mailRequest = new EmailRequest();
         mailRequest.To = new List<RecipientCustom> { new RecipientCustom() { Email = email, Name = name, Data = _jsonSerializer.Serialize(data) } };
-        mailRequest.Subject = template.Name;
+        mailRequest.Subject = template.Subject;
         mailRequest.HTMLTemplate = template.Url;
         mailRequest.IsUrlTemplate = template.IsHtml;
         mailRequest.IsCustomized = template.IsCustom;

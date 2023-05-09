@@ -8,6 +8,11 @@ public class SearchAllUsers : Specification<User> {
     public SearchAllUsers()  {
         Query
             .Include(u => u.Role)
+            .Include(u => u.PersonUsers).ThenInclude(x => x.Relationship)
+            .Include(u => u.PersonUsers).ThenInclude(x => x.Person)
+            .Include(u => u.PersonUsers).ThenInclude(x => x.Person.Gender)
+            .Include(u => u.PersonUsers).ThenInclude(x => x.Person.MaritalStatus)
+            .Include(u => u.PersonUsers).ThenInclude(x => x.Person.Address)
             .Where(u => u.IsActive == true);
     }
 }
@@ -47,6 +52,8 @@ public class SearchAllModules : Specification<Module>
     public SearchAllModules()
     {
         Query
+            .Include(u => u.ModulePermissions)
+            .Include(u => u.ModulePermissions).ThenInclude(x => x.Permission)
             .Where(u => u.IsActive == true);
     }
 }
@@ -87,6 +94,7 @@ public class GetRoleById : Specification<Role>
     public GetRoleById(int id)
     {
         Query
+            .Include(u => u.ModuleRoles).ThenInclude(x => x.Module).ThenInclude(x => x.ModulePermissions).ThenInclude(x => x.Permission)
             .Where(u => u.IsActive == true)
             .Where(u => u.RoleId == id);
     }

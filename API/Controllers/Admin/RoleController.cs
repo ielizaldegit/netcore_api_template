@@ -47,6 +47,14 @@ public class RoleController : VersionNeutralApiController
 
 
 
+    [HttpGet("{id}/modules")]
+    [OpenApiOperation("Obtiene los módulos correspondientes al rol solicitado", "")]
+    public async Task<ActionResult<List<ModuleResponse>>> GetModules(int id)
+    {
+        var result = await _authService.GetRoleModulesAsync(id);
+        return Ok(result);
+    }
+
     [HttpPost("{id}/modules")]
     [OpenApiOperation("Agrega un módulo al rol", "")]
     public async Task<ActionResult> AddModule(int id, int moduleId,  int permissionId)

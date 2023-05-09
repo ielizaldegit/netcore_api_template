@@ -12,7 +12,9 @@ public class LoginRequestValidator : AbstractValidator<LoginRequest> {
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequest> {
     public RegisterRequestValidator() {
-        RuleFor(p => p.Name).NotNull().EmailAddress().MaximumLength(250);
+        RuleFor(p => p.FirstName).NotNull().MaximumLength(250);
+        RuleFor(p => p.LastName).NotNull().MaximumLength(250);
+        RuleFor(p => p.Email).NotNull().EmailAddress().MaximumLength(250);
         RuleFor(p => p.Password).NotNull().MaximumLength(100);
     }
 }

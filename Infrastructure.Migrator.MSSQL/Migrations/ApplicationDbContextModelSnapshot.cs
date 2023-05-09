@@ -66,17 +66,17 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(MAX)")
                         .HasColumnName("content")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<bool>("IsCustom")
                         .HasColumnType("bit")
                         .HasColumnName("is_active")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(7);
 
                     b.Property<bool>("IsHtml")
                         .HasColumnType("bit")
                         .HasColumnName("is_html")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -85,12 +85,19 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .HasColumnName("name")
                         .HasColumnOrder(2);
 
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)")
+                        .HasColumnName("subject")
+                        .HasColumnOrder(3);
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .HasColumnName("url")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
 
                     b.HasKey("TemplateId");
 
@@ -103,7 +110,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             Content = "",
                             IsCustom = true,
                             IsHtml = true,
-                            Name = "Activa tu cuenta",
+                            Name = "activation_account",
+                            Subject = "Activa tu cuenta",
                             Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/activate-account.html"
                         },
                         new
@@ -112,7 +120,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             Content = "",
                             IsCustom = true,
                             IsHtml = true,
-                            Name = "¿Olvidaste tu contraseña?",
+                            Name = "forgot_password",
+                            Subject = "¿Olvidaste tu contraseña?",
                             Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/new-password-request.html"
                         },
                         new
@@ -121,7 +130,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             Content = "",
                             IsCustom = true,
                             IsHtml = true,
-                            Name = "Bienvenido",
+                            Name = "welcome",
+                            Subject = "Bienvenido",
                             Url = "https://gestordoc.blob.core.windows.net/swplus-20220927/email-templates/welcome.html"
                         });
                 });
@@ -296,127 +306,171 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             ModuleId = 1,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4040),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3470),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-home",
+                            CssClass = "fa-solid fa-house",
                             Description = "",
                             DisplayOrder = 1,
                             IsActive = true,
                             IsVisible = false,
                             Name = "Home",
-                            Route = "/",
                             Subtitle = "Inicio",
                             Title = "Inicio"
                         },
                         new
                         {
                             ModuleId = 2,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3510),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-settings",
+                            CssClass = "fa-solid fa-gear",
                             Description = "",
                             DisplayOrder = 2,
                             IsActive = true,
                             IsVisible = false,
                             Name = "Settings",
-                            Route = "/config",
                             Subtitle = "Configuracion general",
                             Title = "Configuración"
                         },
                         new
                         {
                             ModuleId = 3,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3580),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-user",
+                            CssClass = "fa-solid fa-file-lines",
+                            Description = "",
+                            DisplayOrder = 3,
+                            IsActive = true,
+                            IsVisible = false,
+                            Name = "Reports",
+                            Subtitle = "Reportes del sistema",
+                            Title = "Reportes"
+                        },
+                        new
+                        {
+                            ModuleId = 4,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3590),
+                            CreatedBy = 1,
+                            CssClass = "fa-solid fa-square-poll-vertical",
                             Description = "",
                             DisplayOrder = 1,
                             IsActive = true,
-                            IsVisible = false,
+                            IsVisible = true,
+                            Name = "Dashboard",
+                            ParentId = 1,
+                            Route = "/site/dashboard",
+                            Subtitle = "Panel principal",
+                            Title = "Dashboard"
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3590),
+                            CreatedBy = 1,
+                            CssClass = "fa-solid fa-users",
+                            Description = "",
+                            DisplayOrder = 1,
+                            IsActive = true,
+                            IsVisible = true,
                             Name = "Users",
                             ParentId = 2,
-                            Route = "/config/users",
+                            Route = "/site/config/users",
                             Subtitle = "Administracion de usuarios",
                             Title = "Usuarios"
                         },
                         new
                         {
-                            ModuleId = 4,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4070),
+                            ModuleId = 6,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3600),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-mod",
+                            CssClass = "fa-solid fa-cubes",
                             Description = "",
                             DisplayOrder = 2,
                             IsActive = true,
-                            IsVisible = false,
+                            IsVisible = true,
                             Name = "Modules",
                             ParentId = 2,
-                            Route = "/config/modules",
+                            Route = "/site/config/modules",
                             Subtitle = "Administracion de módulos",
                             Title = "Módulos"
                         },
                         new
                         {
-                            ModuleId = 5,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
+                            ModuleId = 7,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3600),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-cat",
+                            CssClass = "fa-solid fa-id-badge",
                             Description = "",
                             DisplayOrder = 3,
                             IsActive = true,
-                            IsVisible = false,
+                            IsVisible = true,
+                            Name = "Roles",
+                            ParentId = 2,
+                            Route = "/site/config/roles",
+                            Subtitle = "Administracion de roles",
+                            Title = "Roles"
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610),
+                            CreatedBy = 1,
+                            CssClass = "fa-solid fa-user-shield",
+                            Description = "",
+                            DisplayOrder = 4,
+                            IsActive = true,
+                            IsVisible = true,
+                            Name = "Permissions",
+                            ParentId = 2,
+                            Route = "/site/config/permissions",
+                            Subtitle = "Administracion de permisos",
+                            Title = "Permisos"
+                        },
+                        new
+                        {
+                            ModuleId = 9,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610),
+                            CreatedBy = 1,
+                            CssClass = "fa-solid fa-rectangle-list",
+                            Description = "",
+                            DisplayOrder = 5,
+                            IsActive = true,
+                            IsVisible = true,
                             Name = "Catalogues",
                             ParentId = 2,
-                            Route = "/config/cats",
                             Subtitle = "Administracion de catálogos",
                             Title = "Catálogos"
                         },
                         new
                         {
-                            ModuleId = 6,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
+                            ModuleId = 10,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3610),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-cat",
+                            CssClass = "fa-solid fa-envelope-open-text",
                             Description = "",
                             DisplayOrder = 1,
                             IsActive = true,
-                            IsVisible = false,
-                            Name = "Género",
-                            ParentId = 5,
-                            Route = "/config/sex",
-                            Subtitle = "Catálogo de géneros",
-                            Title = "Generos"
+                            IsVisible = true,
+                            Name = "MailTemplate",
+                            ParentId = 9,
+                            Route = "/site/config/catalogues/mail-templates",
+                            Subtitle = "Administración de plantillas",
+                            Title = "Plantillas de correo"
                         },
                         new
                         {
-                            ModuleId = 7,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4080),
+                            ModuleId = 11,
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 761, DateTimeKind.Local).AddTicks(3620),
                             CreatedBy = 1,
-                            CssClass = "mdi mdi-cat",
+                            CssClass = "fa-solid fa-wave-square",
                             Description = "",
-                            DisplayOrder = 2,
+                            DisplayOrder = 1,
                             IsActive = true,
-                            IsVisible = false,
-                            Name = "País",
-                            ParentId = 5,
-                            Route = "/config/country",
-                            Subtitle = "Catálogo de paises",
-                            Title = "Paises"
-                        },
-                        new
-                        {
-                            ModuleId = 8,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 46, DateTimeKind.Local).AddTicks(4090),
-                            CreatedBy = 1,
-                            CssClass = "mdi mdi-reports",
-                            Description = "",
-                            DisplayOrder = 2,
-                            IsActive = true,
-                            IsVisible = false,
-                            Name = "Reports",
-                            Route = "/reports",
-                            Subtitle = "Reportes del sistema",
-                            Title = "Reportes"
+                            IsVisible = true,
+                            Name = "Activity",
+                            ParentId = 3,
+                            Route = "/site/reports/activity",
+                            Subtitle = "Reporte de actividad por usuario del sistema",
+                            Title = "Actividad"
                         });
                 });
 
@@ -456,43 +510,28 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         },
                         new
                         {
-                            ModuleId = 3,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            PermissionId = 4
-                        },
-                        new
-                        {
                             ModuleId = 4,
                             PermissionId = 1
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            PermissionId = 4
                         },
                         new
                         {
                             ModuleId = 5,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            PermissionId = 4
                         },
                         new
                         {
@@ -538,6 +577,71 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         {
                             ModuleId = 8,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 9,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            PermissionId = 8
                         });
                 });
 
@@ -587,51 +691,33 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         },
                         new
                         {
-                            ModuleId = 3,
-                            RoleId = 1,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            RoleId = 1,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            RoleId = 1,
-                            PermissionId = 4
-                        },
-                        new
-                        {
                             ModuleId = 4,
                             RoleId = 1,
                             PermissionId = 1
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            RoleId = 1,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            RoleId = 1,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            RoleId = 1,
-                            PermissionId = 4
                         },
                         new
                         {
                             ModuleId = 5,
                             RoleId = 1,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            RoleId = 1,
+                            PermissionId = 4
                         },
                         new
                         {
@@ -686,6 +772,84 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             ModuleId = 8,
                             RoleId = 1,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            RoleId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 9,
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            RoleId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            RoleId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            RoleId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            RoleId = 1,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            RoleId = 1,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            RoleId = 1,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            RoleId = 1,
+                            PermissionId = 8
                         });
                 });
 
@@ -735,51 +899,33 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         },
                         new
                         {
-                            ModuleId = 3,
-                            UserId = 1,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            UserId = 1,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 3,
-                            UserId = 1,
-                            PermissionId = 4
-                        },
-                        new
-                        {
                             ModuleId = 4,
                             UserId = 1,
                             PermissionId = 1
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            UserId = 1,
-                            PermissionId = 2
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            UserId = 1,
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            ModuleId = 4,
-                            UserId = 1,
-                            PermissionId = 4
                         },
                         new
                         {
                             ModuleId = 5,
                             UserId = 1,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            UserId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            UserId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 5,
+                            UserId = 1,
+                            PermissionId = 4
                         },
                         new
                         {
@@ -834,6 +980,84 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             ModuleId = 8,
                             UserId = 1,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            UserId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            UserId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 8,
+                            UserId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 9,
+                            UserId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            UserId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            UserId = 1,
+                            PermissionId = 2
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            UserId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            ModuleId = 10,
+                            UserId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            UserId = 1,
+                            PermissionId = 1
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            UserId = 1,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            UserId = 1,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            UserId = 1,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            ModuleId = 11,
+                            UserId = 1,
+                            PermissionId = 8
                         });
                 });
 
@@ -920,7 +1144,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 2,
-                            CssClass = "mdi mdi-plus-circle",
+                            CssClass = "fa-solid fa-circle-plus",
                             Description = "Crear nuevo",
                             DisplayOrder = 2,
                             DisplayText = "Nuevo",
@@ -932,7 +1156,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 3,
-                            CssClass = "mdi mdi-pencil",
+                            CssClass = "fa-solid fa-pen-to-square",
                             Description = "Actualizar",
                             DisplayOrder = 3,
                             DisplayText = "Actualizar",
@@ -944,7 +1168,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 4,
-                            CssClass = "mdi mdi-delete",
+                            CssClass = "fa-solid fa-eraser",
                             Description = "Eliminar",
                             DisplayOrder = 4,
                             DisplayText = "Eliminar",
@@ -956,7 +1180,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 5,
-                            CssClass = "mdi mdi-export",
+                            CssClass = "fa-solid fa-file-export",
                             Description = "Exportar",
                             DisplayOrder = 5,
                             DisplayText = "Exportar",
@@ -968,7 +1192,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 6,
-                            CssClass = "mdi mdi-file-excel-box",
+                            CssClass = "fa-solid fa-file-excel",
                             Description = "Exportar a Excel",
                             DisplayOrder = 1,
                             DisplayText = "Excel",
@@ -981,7 +1205,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 7,
-                            CssClass = "mdi mdi-file-pdf-box",
+                            CssClass = "fa-solid fa-file-pdf",
                             Description = "Exportar a PDF",
                             DisplayOrder = 2,
                             DisplayText = "PDF",
@@ -994,8 +1218,8 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             PermissionId = 8,
-                            CssClass = "mdi mdi-file-delimited",
-                            Description = "Exportar a SCV",
+                            CssClass = "fa-solid fa-file-csv",
+                            Description = "Exportar a CSV",
                             DisplayOrder = 3,
                             DisplayText = "CSV",
                             Grouping = false,
@@ -1143,7 +1367,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(8950),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 764, DateTimeKind.Local).AddTicks(3230),
                             Email = "ielizalde@swplus.com.mx",
                             EmailConfirmed = true,
                             IsActive = true,
@@ -1454,7 +1678,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                         .HasColumnName("address_id")
                         .HasColumnOrder(6);
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2")
                         .HasColumnName("birthdate")
                         .HasColumnOrder(8);
@@ -1573,7 +1797,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             PersonId = 1,
                             AddressId = 1,
                             Birthdate = new DateTime(1983, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(160),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 763, DateTimeKind.Local).AddTicks(3350),
                             Curp = "",
                             Email = "ielizalde@swplus.com.mx",
                             GenderId = 1,
@@ -1593,7 +1817,7 @@ namespace Infrastructure.Migrator.MSSQL.Migrations
                             PersonId = 2,
                             AddressId = 2,
                             Birthdate = new DateTime(2020, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2022, 10, 31, 12, 22, 21, 48, DateTimeKind.Local).AddTicks(170),
+                            CreatedAt = new DateTime(2022, 12, 23, 12, 19, 6, 763, DateTimeKind.Local).AddTicks(3370),
                             Curp = "",
                             Email = "ielizaldejr@swplus.com.mx",
                             GenderId = 1,

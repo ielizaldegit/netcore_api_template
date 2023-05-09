@@ -8,6 +8,7 @@ public class Template
 {
     public int TemplateId { get; set; }
     public string Name { get; set; }
+    public string Subject { get; set; }
     public string Url { get; set; }
     public string Content { get; set; }
     public bool IsHtml { get; set; }

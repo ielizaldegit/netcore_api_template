@@ -28,7 +28,8 @@ public class PersonResponse : UpdatePersonRequest {
     public string Relationship { get; set; }
     public bool? Principal { get; set; }
     public string Photo { get; set; }
-    
+    public string FullName { get; set; }
+
 }
 
 
@@ -66,7 +67,7 @@ public class AddressResponse : UpdateAddressRequest {
 
 public class UpdatePasswordRequest
 {
-    public int UserId { get; set; }
+    //public int UserId { get; set; }
     public string NewPassword { get; set; }
     public string CurrentPassword { get; set; }
 }

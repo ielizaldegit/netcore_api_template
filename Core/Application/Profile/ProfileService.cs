@@ -129,8 +129,8 @@ public class ProfileService : IProfileService
 
     public async Task UpdatePasswordAsync(UpdatePasswordRequest request)
     {
-        var user = await _unitOfWork.Users.FirstOrDefaultAsync(new UserById(request.UserId));
-        if (user == null) throw new NotFoundException($"El usuario con Id {request.UserId} no fue encontrado.");
+        var user = await _unitOfWork.Users.FirstOrDefaultAsync(new UserById(_currentUser.GetUserId()));
+        if (user == null) throw new NotFoundException($"El usuario con Id {_currentUser.GetUserId()} no fue encontrado.");
 
         var CheckPassword = _passwordHasher.VerifyHashedPassword(user, user.Password, request.CurrentPassword);
         if (CheckPassword == PasswordVerificationResult.Failed) throw new UnauthorizedException($"La contraseña actual del usuario es incorrecta");

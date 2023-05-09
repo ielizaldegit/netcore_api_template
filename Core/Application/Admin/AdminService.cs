@@ -45,8 +45,12 @@ public class AdminService: IAdminService
     }
     public async Task<UserResponse> RegisterAsync(CreateUserRequest request)
     {
+        string password = "";
+
+        if (request.IsTemporaryPassword && string.IsNullOrEmpty(request.Password)) password = CreateTemporaryPassword(10, true);
+        else password = request.Password;
+
         User usuario = _mapper.Map<User>(request);
-        string password = CreateTemporaryPassword(10, true);
         usuario.Password = _passwordHasher.HashPassword(usuario, password);
 
 
@@ -77,12 +81,12 @@ public class AdminService: IAdminService
                 };
 
                 usuario.IsActive =  true;
-                usuario.IsTemporaryPassword = true;
+                
 
                 await _unitOfWork.Users.AddAsync(usuario);
                 UserResponse dto = _mapper.Map<UserResponse>(usuario);
 
-                await SendWelcomeEmail(request.Email, request.Name, password);
+                await SendWelcomeEmail(usuario.Email, usuario.Name, password);
 
                 return dto;
             }
@@ -97,6 +101,22 @@ public class AdminService: IAdminService
             throw new BadRequestException($"El usuario {request.Name} ya se encuentra registrado.");
         }
     }
+    public async Task UpdatePasswordAsync(UpdatePasswordRequest request)
+    {
+        var usuario = await _unitOfWork.Users.FirstOrDefaultAsync(new UserById(request.UserId));
+        if (usuario == null) throw new NotFoundException($"El usuario con Id {request.UserId} no fue encontrado.");
+
+        string password = "";
+        if (request.IsTemporaryPassword && string.IsNullOrEmpty(request.Password)) password = CreateTemporaryPassword(10, true);
+        else password = request.Password;
+
+        usuario.Password = _passwordHasher.HashPassword(usuario, password);
+        await _unitOfWork.Users.UpdateAsync(usuario);
+
+        //TODO Enviar notificacion de cambio de contraseña via correo electronico
+
+    }
+
     #endregion
 
     #region Permission
@@ -271,6 +291,20 @@ public class AdminService: IAdminService
         role.IsActive = false;
         await _unitOfWork.Roles.UpdateAsync(role);
     }
+
+
+    public async Task<List<ModuleResponse>> GetRoleModulesAsync(int RoleId)
+    {
+        var role = await _unitOfWork.Roles.FirstOrDefaultAsync(new GetRoleById(RoleId));
+        if (role == null) throw new NotFoundException($"No fue encontrado un rol con el id '{RoleId}'.");
+
+
+        return _mapper.Map<List<ModuleResponse>>(role.ModuleRoles);
+
+
+    }
+
+
     public async Task AddRoleModuleAsync(int RoleId, int ModuleId, int PermissionId)
     {
         var role = await _unitOfWork.Roles.FirstOrDefaultAsync(new GetRoleById(RoleId));
@@ -345,13 +379,14 @@ public class AdminService: IAdminService
 
         var mailRequest = new EmailRequest();
         mailRequest.To = new List<RecipientCustom> { new RecipientCustom() { Email = email, Name = name, Data = _jsonSerializer.Serialize(data) } };
-        mailRequest.Subject = template.Name;
+        mailRequest.Subject = template.Subject;
         mailRequest.HTMLTemplate = template.Url;
         mailRequest.IsUrlTemplate = template.IsHtml;
         mailRequest.IsCustomized = template.IsCustom;
 
         var mailResponse = await _notification.SendMail(mailRequest);
     }
+
     #endregion
 
 }
